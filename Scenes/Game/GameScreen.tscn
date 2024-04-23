@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://coxpmudniytrs"]
+
+[ext_resource type="PackedScene" uid="uid://c6uplsipocw2w" path="res://Scenes/Cards/Card.tscn" id="1_jbu6b"]
+
+[node name="GameScreen" type="Node2D"]
+
+[node name="Card" parent="." instance=ExtResource("1_jbu6b")]
+position = Vector2(588, 328)
+scale = Vector2(0.2, 0.2)
+metadata/Value = "9"
+
+[node name="Card2" parent="." instance=ExtResource("1_jbu6b")]
+position = Vector2(778, 271)
+scale = Vector2(0.2, 0.2)
+metadata/Color = "Wild"
+metadata/Value = "PickFour"
+
+[node name="Card3" parent="." node_paths=PackedStringArray("CardBack") instance=ExtResource("1_jbu6b")]
+position = Vector2(215, 200)
+scale = Vector2(0.2, 0.2)
+CardBack = NodePath("../Card2/CardBack")
+metadata/Color = "Red"
+metadata/Value = "Reverse"

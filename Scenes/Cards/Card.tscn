@@ -1,0 +1,80 @@
+[gd_scene load_steps=7 format=3 uid="uid://c6uplsipocw2w"]
+
+[ext_resource type="Script" path="res://Scripts/Cards/CardLogic.gd" id="1_2pogy"]
+[ext_resource type="Script" path="res://Scripts/Cards/CardFace.gd" id="2_1x5ym"]
+[ext_resource type="Texture2D" uid="uid://cdmi0eppmov04" path="res://Assets/Cards/cardback.png" id="3_djus4"]
+
+[sub_resource type="Animation" id="Animation_d30yj"]
+resource_name = "ScaleUp"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wqdoy"]
+resource_name = "ScaleDown"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8id3i"]
+_data = {
+"ScaleDown": SubResource("Animation_wqdoy"),
+"ScaleUp": SubResource("Animation_d30yj")
+}
+
+[node name="Card" type="Node2D" node_paths=PackedStringArray("CardBack") groups=["Cards"]]
+script = ExtResource("1_2pogy")
+CardBack = NodePath("CardBack")
+metadata/Color = "Blue"
+metadata/Value = "1"
+metadata/CardBack = false
+
+[node name="CardFace" type="Sprite2D" parent="."]
+script = ExtResource("2_1x5ym")
+
+[node name="CardBack" type="Sprite2D" parent="."]
+texture = ExtResource("3_djus4")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -191.0
+offset_top = -270.0
+offset_right = 194.0
+offset_bottom = 270.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8id3i")
+}
+
+[connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
+[connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]
