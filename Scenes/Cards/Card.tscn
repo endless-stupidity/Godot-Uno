@@ -43,6 +43,7 @@ _data = {
 }
 
 [node name="Card" type="Node2D" node_paths=PackedStringArray("CardBack") groups=["Cards"]]
+scale = Vector2(0.25, 0.25)
 script = ExtResource("1_2pogy")
 CardBack = NodePath("CardBack")
 metadata/Color = "Blue"

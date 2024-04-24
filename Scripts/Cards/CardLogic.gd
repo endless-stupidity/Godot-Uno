@@ -24,7 +24,7 @@ func _ready() -> void:
 	elif (!get_meta("CardBack")):
 		get_node("CardFace").visible = true
 		get_node("CardBack").visible = false
-		
+	name = get_meta("Color") + get_meta("Value")
 	scale_up_animation.track_set_key_value(0,0,default_scale) #initialize the proper animation keyframe values
 	scale_up_animation.track_set_key_value(0,1,scale * scaling_amount)
 	scale_down_animation.track_set_key_value(0,0,scale)

@@ -2,6 +2,7 @@ extends Node
 
 var is_a_card_being_dragged: bool
 var player_count: int = 1
+var card_scene = preload("res://Scenes/Cards/Card.tscn")
 
 var deck = []
 var discard_pile = []
@@ -87,13 +88,18 @@ func fill_deck() -> void:
 	for color in sprite_map.keys():
 		for value in sprite_map[color].keys():
 			for _i in range(player_count):
-				var card = preload("res://Scenes/Cards/Card.tscn")
+				var card = card_scene.instantiate()
 				card.set_meta("Color", color)
 				card.set_meta("Value", value)
 				deck.append(card)
 
 func shuffle_deck() -> void:
 	deck.shuffle()
+
+func init_deck() -> void:
+	clear_deck()
+	fill_deck()
+	shuffle_deck()
 
 func draw_from_deck(card_count: int) -> Array:
 	var drawn_cards = []
