@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://Scripts/Cards/CardFace.gd" id="2_1x5ym"]
 [ext_resource type="Texture2D" uid="uid://cdmi0eppmov04" path="res://Assets/Cards/cardback.png" id="3_djus4"]
 
-[sub_resource type="Animation" id="Animation_d30yj"]
-resource_name = "ScaleUp"
+[sub_resource type="Animation" id="Animation_wqdoy"]
+resource_name = "ScaleDown"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -20,8 +20,8 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_wqdoy"]
-resource_name = "ScaleDown"
+[sub_resource type="Animation" id="Animation_d30yj"]
+resource_name = "ScaleUp"
 length = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
