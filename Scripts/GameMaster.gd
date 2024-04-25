@@ -1,12 +1,11 @@
 extends Node
 
-var is_a_card_being_dragged: bool
-var player_count: int = 1
-var card_scene = preload("res://Scenes/Cards/Card.tscn")
+var player_count: int = 1 #how many players are playing
+var card_scene = preload("res://Scenes/Cards/Card.tscn") #the card scene
 
-var deck = []
-var discard_pile = []
-var player_hand = []
+var deck = [] #the deck from which all cards are drawn
+var discard_pile = [] #the pile where played cards go to
+var player_hand = [] #cards in the player's hand
 
 const sprite_map: Dictionary = {
 	"Blue": {
@@ -75,16 +74,16 @@ const sprite_map: Dictionary = {
 	},
 }
 
-func clear_deck() -> void:
+func clear_deck() -> void: #empty the deck
 	deck = []
 
-func clear_discard_pile() -> void:
+func clear_discard_pile() -> void: #empty the discard pile
 	discard_pile = []
 
-func clear_player_hand() -> void:
+func clear_player_hand() -> void: #empty the player hand
 	player_hand = []
 
-func fill_deck() -> void:
+func fill_deck() -> void: #generate cards based on the number of players
 	for color in sprite_map.keys():
 		for value in sprite_map[color].keys():
 			for _i in range(player_count):
@@ -93,15 +92,15 @@ func fill_deck() -> void:
 				card.set_meta("Value", value)
 				deck.append(card)
 
-func shuffle_deck() -> void:
+func shuffle_deck() -> void: #shuffle the cards in the deck
 	deck.shuffle()
 
-func init_deck() -> void:
+func init_deck() -> void: #clear, fill, and then shuffle the deck
 	clear_deck()
 	fill_deck()
 	shuffle_deck()
 
-func draw_from_deck(card_count: int) -> Array:
+func draw_from_deck(card_count: int) -> Array: #removes the amount of wanted cards from the deck and returns them
 	var drawn_cards = []
 	if deck.size() > card_count:
 		for _i in range(card_count):
@@ -112,13 +111,25 @@ func draw_from_deck(card_count: int) -> Array:
 		print_debug("Not enough cards in deck to draw " + str(card_count))
 		return []
 
-func draw_to_player_hand(card_count: int) -> Array:
+func draw_to_player_hand(card_count: int) -> Array: #removes the amount of wanted cards from the deck and moves them to player's hand
 	var drawn_cards = []
 	if deck.size() > card_count:
 		for _i in range(card_count):
 			var card = deck.pop_back()
 			drawn_cards.append(card)
-		player_hand = drawn_cards
+		player_hand += drawn_cards
+		return drawn_cards
+	else:
+		print_debug("Not enough cards in deck to draw " + str(card_count))
+		return []
+
+func draw_to_discard(card_count: int) -> Array: #removes the amount of wanted cards from the deck and moves them to the discard pile
+	var drawn_cards = []
+	if deck.size() > card_count:
+		for _i in range(card_count):
+			var card = deck.pop_back()
+			drawn_cards.append(card)
+		discard_pile += drawn_cards
 		return drawn_cards
 	else:
 		print_debug("Not enough cards in deck to draw " + str(card_count))

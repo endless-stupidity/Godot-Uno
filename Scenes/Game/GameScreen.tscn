@@ -4,15 +4,17 @@
 [ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="2_xd7vf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
-size = Vector2(750, 169)
+size = Vector2(544, 169)
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
 
 [node name="PlayerHand" type="Area2D" parent="."]
+position = Vector2(593, 500)
+input_pickable = false
+monitoring = false
 script = ExtResource("2_xd7vf")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHand"]
-position = Vector2(593, 522)
+[node name="PlayerHandArea" type="CollisionShape2D" parent="PlayerHand"]
 shape = SubResource("RectangleShape2D_qdtdn")
 disabled = true

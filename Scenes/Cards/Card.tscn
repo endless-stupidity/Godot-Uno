@@ -46,8 +46,8 @@ _data = {
 [node name="Card" type="Node2D" groups=["Cards"]]
 scale = Vector2(0.25, 0.25)
 script = ExtResource("1_2pogy")
-angle_x_max = 1.0
-angle_y_max = 1.0
+angle_x_max = 0.1
+angle_y_max = 0.1
 metadata/Color = "Blue"
 metadata/Value = "1"
 metadata/CardBack = false
