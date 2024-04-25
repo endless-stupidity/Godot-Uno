@@ -29,11 +29,11 @@ func _ready() -> void:
 	scale_down_animation.track_set_key_value(0,1,default_scale)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton: #when a card is clicked on
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if hovering and event.pressed:
 				print_debug(get_meta("Color") + get_meta("Value") + " is played")
-	if hovering:
+	if hovering: #idk what math is used here but it works and gives the card the 3d perspective we all love
 		var mouse_pos = get_local_mouse_position()
 
 		var lerp_val_x: float = remap(-mouse_pos.y, 0.0, $CardFace.size.x/2, 0, 1)
@@ -58,11 +58,10 @@ func _on_control_mouse_exited() -> void: #when the mouse stops hovering over the
 	scale_down_animation.track_set_key_value(0,0,scale)
 	scale_animate.play("ScaleDown")
 	
-	$CardFace.material.set_shader_parameter("x_rot", 0)
+	$CardFace.material.set_shader_parameter("x_rot", 0) #reset the 3d perspective (hopefully)
 	$CardFace.material.set_shader_parameter("y_rot", 0)
 	$CardBack.material.set_shader_parameter("x_rot", 0)
 	$CardBack.material.set_shader_parameter("y_rot", 0)
-
 
 func set_atop() -> void:
 	var highest_z_index = 0

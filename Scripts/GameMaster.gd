@@ -111,26 +111,34 @@ func draw_from_deck(card_count: int) -> Array: #removes the amount of wanted car
 		print_debug("Not enough cards in deck to draw " + str(card_count))
 		return []
 
-func draw_to_player_hand(card_count: int) -> Array: #removes the amount of wanted cards from the deck and moves them to player's hand
+func draw_to_player_hand(card_count: int) -> void: #removes the amount of wanted cards from the deck and moves them to player's hand
 	var drawn_cards = []
 	if deck.size() > card_count:
 		for _i in range(card_count):
 			var card = deck.pop_back()
 			drawn_cards.append(card)
 		player_hand += drawn_cards
-		return drawn_cards
 	else:
 		print_debug("Not enough cards in deck to draw " + str(card_count))
-		return []
 
-func draw_to_discard(card_count: int) -> Array: #removes the amount of wanted cards from the deck and moves them to the discard pile
+func sort_player_hand() -> void: #sorts the cards in the player's hand
+	player_hand.sort_custom(compare_cards)
+
+func draw_to_discard(card_count: int) -> void: #removes the amount of wanted cards from the deck and moves them to the discard pile
 	var drawn_cards = []
 	if deck.size() > card_count:
 		for _i in range(card_count):
 			var card = deck.pop_back()
 			drawn_cards.append(card)
 		discard_pile += drawn_cards
-		return drawn_cards
 	else:
 		print_debug("Not enough cards in deck to draw " + str(card_count))
-		return []
+
+func compare_cards(card1, card2): #the sorting algorithm which first sorts cards based on color then value
+	var color_order = {"Blue": 0, "Green": 1, "Red": 2, "Yellow": 3, "Wild": 4}
+	var card1_color = card1.get_meta("Color")
+	var card2_color = card2.get_meta("Color")
+	if color_order[card1_color] != color_order[card2_color]:
+		return color_order[card1_color] < color_order[card2_color]
+	else:
+		return card1.get_meta("Value") < card2.get_meta("Value")

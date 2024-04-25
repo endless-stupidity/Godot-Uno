@@ -4,13 +4,13 @@
 [ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="2_xd7vf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
-size = Vector2(544, 169)
+size = Vector2(793, 136.063)
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
 
 [node name="PlayerHand" type="Area2D" parent="."]
-position = Vector2(593, 500)
+position = Vector2(593, 530)
 input_pickable = false
 monitoring = false
 script = ExtResource("2_xd7vf")

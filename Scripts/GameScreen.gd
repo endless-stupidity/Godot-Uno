@@ -4,5 +4,6 @@ extends Node2D
 
 func _ready() -> void:
 	GameMaster.init_deck()
-	GameMaster.draw_to_player_hand(5)
+	GameMaster.draw_to_player_hand(15)
+	GameMaster.sort_player_hand()
 	player_hand.update_player_hand()
