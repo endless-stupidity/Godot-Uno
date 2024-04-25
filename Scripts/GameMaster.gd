@@ -111,3 +111,15 @@ func draw_from_deck(card_count: int) -> Array:
 	else:
 		print_debug("Not enough cards in deck to draw " + str(card_count))
 		return []
+
+func draw_to_player_hand(card_count: int) -> Array:
+	var drawn_cards = []
+	if deck.size() > card_count:
+		for _i in range(card_count):
+			var card = deck.pop_back()
+			drawn_cards.append(card)
+		player_hand = drawn_cards
+		return drawn_cards
+	else:
+		print_debug("Not enough cards in deck to draw " + str(card_count))
+		return []

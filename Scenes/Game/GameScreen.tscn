@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=4 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/GameScreen.gd" id="1_2ln60"]
+[ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="2_xd7vf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
+size = Vector2(750, 169)
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
+
+[node name="PlayerHand" type="Area2D" parent="."]
+script = ExtResource("2_xd7vf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerHand"]
+position = Vector2(593, 522)
+shape = SubResource("RectangleShape2D_qdtdn")
+disabled = true

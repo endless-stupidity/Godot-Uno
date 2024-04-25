@@ -30,24 +30,11 @@ func _ready() -> void:
 	scale_down_animation.track_set_key_value(0,0,scale)
 	scale_down_animation.track_set_key_value(0,1,default_scale)
 
-func _process(_delta: float) -> void:
-
-	if dragging: #move the card smoothly to the mouse position
-		position = position.lerp(target_position, lerp_speed)
-
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT: #when the mouse drags the card
-		if hovering:
-			if not dragging and event.pressed:
-				dragging = true
-				GameMaster.is_a_card_being_dragged = true
-		if dragging and not event.pressed:
-			z_index = default_z_index #descale and normalize the card if the mouse isn't over the card when dragging stops
-			scale_down_animation.track_set_key_value(0,0,scale)
-			scale_animate.play("ScaleDown")
-			scaled = false
-			dragging = false
-			GameMaster.is_a_card_being_dragged = false
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if hovering and event.pressed:
+				print_debug(get_meta("Color") + get_meta("Value") + " is played")
 
 	if event is InputEventMouseMotion and target_position != null:
 		target_position = event.position
