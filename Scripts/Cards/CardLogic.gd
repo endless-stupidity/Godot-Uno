@@ -32,8 +32,8 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton: #when a card is clicked on
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if hovering and event.pressed:
-				print_debug(get_meta("Color") + get_meta("Value") + " is played")
-	if hovering: #idk what math is used here but it works and gives the card the 3d perspective we all love
+				play_card()
+	if hovering and get_meta("HoverEffect"): #idk what math is used here but it works and gives the card the 3d perspective we all love
 		var mouse_pos = get_local_mouse_position()
 
 		var lerp_val_x: float = remap(-mouse_pos.y, 0.0, $CardFace.size.x/2, 0, 1)
@@ -49,8 +49,9 @@ func _input(event: InputEvent) -> void:
 
 func _on_control_mouse_entered() -> void: #when the mouse starts hovering over the card
 	hovering = true
-	set_atop() #set the z scale higher than every other card
-	scale_animate.play("ScaleUp")
+	if get_meta("HoverEffect"):
+		set_atop() #set the z scale higher than every other card
+		scale_animate.play("ScaleUp")
 
 func _on_control_mouse_exited() -> void: #when the mouse stops hovering over the card
 	hovering = false
@@ -70,3 +71,9 @@ func set_atop() -> void:
 			highest_z_index = card.z_index
 	z_index = highest_z_index + 1
 	
+func play_card() -> void:
+	var played_card_index = GameMaster.player_hand.find(self)
+	print_debug(str(played_card_index) + get_meta("Color") + get_meta("Value") + " is played")
+	
+	var played_card = GameMaster.player_hand[played_card_index]
+	GameMaster.play_to_discard(played_card)

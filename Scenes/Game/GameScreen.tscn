@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=5 format=3 uid="uid://coxpmudniytrs"]
 
-[ext_resource type="Script" path="res://Scripts/GameScreen.gd" id="1_2ln60"]
-[ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="2_xd7vf"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/PlayerHand.gd" id="2_xd7vf"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/DiscardPile.gd" id="3_1lq7h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
 size = Vector2(793, 136.063)
@@ -18,3 +19,7 @@ script = ExtResource("2_xd7vf")
 [node name="PlayerHandArea" type="CollisionShape2D" parent="PlayerHand"]
 shape = SubResource("RectangleShape2D_qdtdn")
 disabled = true
+
+[node name="DiscardPile" type="Node2D" parent="."]
+position = Vector2(436, 234)
+script = ExtResource("3_1lq7h")

@@ -7,7 +7,8 @@ var card_rotate_curve: Curve = preload("res://Assets/Curves/PlayerHandCardRotate
 
 func clear_player_hand() -> void: #kiils all the children of the player hand
 	for child in get_children():
-		child.queue_free()
+		if child != $PlayerHandArea:
+			remove_child(child)
 
 func update_player_hand() -> void: #updates the player hand based on the GameMaster.player_hand
 	clear_player_hand()
@@ -21,8 +22,8 @@ func update_player_hand() -> void: #updates the player hand based on the GameMas
 		var position_y = area_size.y / 2 - horizontal_card_curve.sample(normalized_x)
 		card.position = Vector2(position_x, position_y) 
 		
-		var rotation = card_rotate_curve.sample(normalized_x)
-		card.rotation = rotation * rotation_factor
+		var rotation_amount = card_rotate_curve.sample(normalized_x)
+		card.rotation = rotation_amount * rotation_factor
 		
 		add_child(card)
 		position_x += spacing

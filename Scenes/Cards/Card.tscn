@@ -51,6 +51,7 @@ angle_y_max = 0.1
 metadata/Color = "Blue"
 metadata/Value = "1"
 metadata/CardBack = false
+metadata/HoverEffect = true
 
 [node name="CardFace" type="TextureRect" parent="."]
 material = ExtResource("2_phsky")
