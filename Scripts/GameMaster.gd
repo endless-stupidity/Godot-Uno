@@ -154,6 +154,8 @@ func play_to_discard(played_card: Variant): #removes the given card from the pla
 	emit_signal("player_hand_changed")
 	emit_signal("discard_pile_changed")
 
+func get_top_discard_card() -> Node2D: #returns the top card in the discard pile
+	return discard_pile[-1]
 
 func sort_player_hand() -> void: #sorts the cards in the player's hand
 	player_hand.sort_custom(compare_cards)

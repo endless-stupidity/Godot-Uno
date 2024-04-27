@@ -32,7 +32,8 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton: #when a card is clicked on
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if hovering and event.pressed:
-				play_card()
+				if can_be_played():
+					play_card()
 	if hovering and get_meta("HoverEffect"): #idk what math is used here but it works and gives the card the 3d perspective we all love
 		var mouse_pos = get_local_mouse_position()
 
@@ -71,9 +72,22 @@ func set_atop() -> void:
 			highest_z_index = card.z_index
 	z_index = highest_z_index + 1
 	
-func play_card() -> void:
+func play_card() -> void: #remove the card from the player hand and add it to the discard pile
 	var played_card_index = GameMaster.player_hand.find(self)
-	print_debug(str(played_card_index) + get_meta("Color") + get_meta("Value") + " is played")
-	
 	var played_card = GameMaster.player_hand[played_card_index]
 	GameMaster.play_to_discard(played_card)
+
+func can_be_played() -> bool: #check if the card can be played according to UNO rules
+	var played_card_color = get_meta("Color")
+	var played_card_value = get_meta("Value")
+	if get_meta("CanBePlayed"):
+		if played_card_color == "Wild":
+			return true
+		elif played_card_color == GameMaster.get_top_discard_card().get_meta("Color"):
+			return true
+		elif played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
+			return true
+		else:
+			return false
+	else:
+		return false

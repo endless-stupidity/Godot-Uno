@@ -52,6 +52,7 @@ metadata/Color = "Blue"
 metadata/Value = "1"
 metadata/CardBack = false
 metadata/HoverEffect = true
+metadata/CanBePlayed = true
 
 [node name="CardFace" type="TextureRect" parent="."]
 material = ExtResource("2_phsky")

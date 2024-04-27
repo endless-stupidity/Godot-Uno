@@ -12,18 +12,16 @@ func _ready() -> void:
 func init_game() -> void:
 	GameMaster.init_deck()
 	
-	GameMaster.draw_to_player_hand(15)
+	GameMaster.draw_to_player_hand(7)
 	GameMaster.sort_player_hand()
 	
 	GameMaster.draw_to_discard(1)
 
 func _on_GameMaster_player_hand_changed() -> void:
 	player_hand.update_player_hand()
-	print_debug("player hand update signal recieved")
 
 func _on_GameMaster_discard_pile_changed() -> void:
 	discard_pile.update_discard_pile()
-	print_debug("discard pile update signal recieved")
 
 func _on_GameMaster_deck_changed() -> void:
 	pass
