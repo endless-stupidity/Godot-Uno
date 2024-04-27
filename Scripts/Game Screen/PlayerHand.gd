@@ -17,13 +17,19 @@ func update_player_hand() -> void: #updates the player hand based on the GameMas
 	var spacing = area_size.x / (card_count + 1) #somehow calculate the spacing between each card
 	var position_x = spacing
 	
-	for card in GameMaster.player_hand: #math magic i don't understand but which works. postitions and rotates the cards in the hand
-		var normalized_x = (position_x - spacing) / (area_size.x - spacing * 2)
-		var position_y = area_size.y / 2 - horizontal_card_curve.sample(normalized_x)
-		card.position = Vector2(position_x, position_y) 
-		
-		var rotation_amount = card_rotate_curve.sample(normalized_x)
-		card.rotation = rotation_amount * rotation_factor
-		
+	if card_count > 1:
+		for card in GameMaster.player_hand: #math magic i don't understand but which works. postitions and rotates the cards in the hand
+			var normalized_x = (position_x - spacing) / (area_size.x - spacing * 2)
+			var position_y = area_size.y / 2 - horizontal_card_curve.sample(normalized_x)
+			card.position = Vector2(position_x, position_y) 
+			
+			var rotation_amount = card_rotate_curve.sample(normalized_x)
+			card.rotation = rotation_amount * rotation_factor
+			
+			add_child(card)
+			position_x += spacing
+	else:
+		var card = GameMaster.player_hand[0]
+		card.position = Vector2(area_size.x / 2, area_size.y / 2)
+		card.rotation = 0
 		add_child(card)
-		position_x += spacing
