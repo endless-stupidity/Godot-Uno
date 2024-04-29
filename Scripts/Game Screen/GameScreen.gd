@@ -7,6 +7,7 @@ extends Node2D
 func _ready() -> void:
 	GameMaster.connect("player_hand_changed", _on_GameMaster_player_hand_changed)
 	GameMaster.connect("discard_pile_changed", _on_GameMaster_discard_pile_changed)
+	GameMaster.connect("deck_changed", _on_GameMaster_deck_changed)
 	init_game()
 
 func init_game() -> void:

@@ -12,7 +12,6 @@ var default_z_index: int #the z_index of the card when initialized
 var default_scale: Vector2 #the scale of the card when initialized
 var hovering = false #is the mouse hovering over the card
 
-
 func _ready() -> void:
 	default_z_index = z_index
 	default_scale = scale

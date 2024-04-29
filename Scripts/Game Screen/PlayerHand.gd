@@ -23,6 +23,10 @@ func update_player_hand() -> void: #updates the player hand based on the GameMas
 			var position_y = area_size.y / 2 - horizontal_card_curve.sample(normalized_x)
 			card.position = Vector2(position_x, position_y) 
 			
+			card.set_meta("HoverEffect", true)
+			card.set_meta("CanBePlayed", true)
+			card.set_meta("CardBack" , false)
+			
 			var rotation_amount = card_rotate_curve.sample(normalized_x)
 			card.rotation = rotation_amount * rotation_factor
 			
