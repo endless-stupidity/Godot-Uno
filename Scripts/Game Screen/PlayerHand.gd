@@ -1,45 +1,51 @@
-extends Area2D
+extends Node2D
 
+var vertical_card_curve: Curve = preload("res://Assets/Curves/VerticalCardCurve.tres")
 var horizontal_card_curve: Curve = preload("res://Assets/Curves/HorizontalCardCurve.tres") #the curve for the y offset of the cards
-var card_rotate_curve: Curve = preload("res://Assets/Curves/PlayerHandCardRotate.tres") #the curve for the rotation of the cards
-var card_spacing_curve: Curve = preload("res://Assets/Curves/CardSpacingCurve.tres")
+var card_rotate_curve: Curve = preload("res://Assets/Curves/CardHandRotateCurve.tres") #the curve for the rotation of the cards
 
 @export var rotation_factor: float = 0.3 #how much should the cards be rotated
-@export var max_card_count: int = 30 #how many cards can be in a player's hand before shit goes wild
+@export var spread_amount: int = 300
+
 
 func clear_player_hand() -> void: #kiils all the children of the player hand
 	for child in get_children():
-		if child != $PlayerHandArea:
-			remove_child(child)
+		remove_child(child)
 
 func update_player_hand() -> void: #updates the player hand based on the GameMaster.player_hand
+	var tween = create_tween().set_parallel()
 	clear_player_hand()
 	var card_count = GameMaster.player_hand.size() #how many cards are there
-	var area_size = $PlayerHandArea.shape.get_rect().size #get the size of the player hand area
-	var spacing = card_spacing_curve.sample(remap(card_count, 1, max_card_count, 0, 1))
 	
-	var total_width = spacing * (card_count - 1)
-	var start_position_x = $PlayerHandArea.shape.get_rect().position.x
+	if card_count < 6 and card_count > 3:
+		spread_amount = 100
+	elif card_count < 4:
+		spread_amount = 50
+	elif card_count < 15:
+		spread_amount = 200
 	
 	if card_count > 1:
-		var counter = 0
 		for card in GameMaster.player_hand: #math magic i don't understand but which works. postitions and rotates the cards in the hand
-			var position_x = start_position_x + spacing * counter
-			var normalized_x = (position_x - start_position_x) / total_width
-			var position_y = area_size.y / 2 - horizontal_card_curve.sample(normalized_x)
-			card.position = Vector2(position_x, position_y) 
+			add_child(card)
+
+		for card in get_children():
+			var hand_ratio = float(card.get_index()) / float(card_count - 1)
+			var local_position := Vector2(vertical_card_curve.sample(hand_ratio) * spread_amount, horizontal_card_curve.sample(hand_ratio))
+			tween.tween_property(card, "position", local_position, 0.5)
+
 			
 			card.set_meta("HoverEffect", true)
 			card.set_meta("CanBePlayed", true)
 			card.set_meta("CardBack" , false)
 			
-			var rotation_amount = card_rotate_curve.sample(normalized_x)
+			var rotation_amount = card_rotate_curve.sample(hand_ratio)
 			card.rotation = rotation_amount * rotation_factor
 			
-			add_child(card)
-			counter += 1
+			
 	else:
 		var card = GameMaster.player_hand[0]
-		card.position = Vector2(area_size.x / 2, area_size.y / 2)
+		var hand_ratio = 0.5
+		var local_position = Vector2(vertical_card_curve.sample(hand_ratio), vertical_card_curve.sample(hand_ratio))
+		tween.tween_property(card, "position", local_position, 0.5)
 		card.rotation = 0
 		add_child(card)
