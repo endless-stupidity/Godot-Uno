@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/PlayerHand.gd" id="2_xd7vf"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/DiscardPile.gd" id="3_1lq7h"]
-[ext_resource type="PackedScene" uid="uid://c6uplsipocw2w" path="res://Scenes/Cards/Card.tscn" id="4_66rei"]
+[ext_resource type="PackedScene" uid="uid://bunkc8qgqq3co" path="res://Scenes/Game/Deck.tscn" id="4_c27vo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
 size = Vector2(793, 136.063)
@@ -25,52 +25,5 @@ disabled = true
 position = Vector2(436, 234)
 script = ExtResource("3_1lq7h")
 
-[node name="Deck" type="Node2D" parent="."]
-position = Vector2(560, 233)
-
-[node name="Card" parent="Deck" instance=ExtResource("4_66rei")]
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card2" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -3)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card3" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -6)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card4" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -9)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card5" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -12)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card6" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -15)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card7" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -18)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
-
-[node name="Card8" parent="Deck" instance=ExtResource("4_66rei")]
-position = Vector2(0, -21)
-metadata/CardBack = true
-metadata/HoverEffect = false
-metadata/CanBePlayed = false
+[node name="Deck" parent="." instance=ExtResource("4_c27vo")]
+position = Vector2(580, 235)
