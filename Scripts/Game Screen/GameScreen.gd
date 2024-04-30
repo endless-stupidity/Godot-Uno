@@ -16,7 +16,7 @@ func _ready() -> void:
 func init_game() -> void:
 	GameMaster.init_deck()
 	
-	GameMaster.draw_to_player_hand(7)
+	GameMaster.draw_to_player_hand(30)
 	GameMaster.draw_to_cpu1_hand(7)
 	GameMaster.draw_to_cpu2_hand(7)
 	GameMaster.draw_to_cpu3_hand(7)

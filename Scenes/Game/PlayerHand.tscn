@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://wjo01bdyjbix"]
+
+[ext_resource type="Script" path="res://Scripts/Game Screen/PlayerHand.gd" id="1_kwdnc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
+size = Vector2(793, 136.063)
+
+[node name="PlayerHand" type="Area2D"]
+position = Vector2(593, 530)
+input_pickable = false
+monitoring = false
+script = ExtResource("1_kwdnc")
+
+[node name="PlayerHandArea" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qdtdn")
+disabled = true

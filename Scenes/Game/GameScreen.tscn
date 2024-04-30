@@ -1,29 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=5 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
-[ext_resource type="Script" path="res://Scripts/Game Screen/PlayerHand.gd" id="2_xd7vf"]
+[ext_resource type="PackedScene" uid="uid://wjo01bdyjbix" path="res://Scenes/Game/PlayerHand.tscn" id="2_hpt1n"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/DiscardPile.gd" id="3_1lq7h"]
 [ext_resource type="PackedScene" uid="uid://bunkc8qgqq3co" path="res://Scenes/Game/Deck.tscn" id="4_c27vo"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdtdn"]
-size = Vector2(793, 136.063)
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
 
-[node name="PlayerHand" type="Area2D" parent="."]
-position = Vector2(593, 530)
-input_pickable = false
-monitoring = false
-script = ExtResource("2_xd7vf")
-
-[node name="PlayerHandArea" type="CollisionShape2D" parent="PlayerHand"]
-shape = SubResource("RectangleShape2D_qdtdn")
-disabled = true
+[node name="PlayerHand" parent="." instance=ExtResource("2_hpt1n")]
+position = Vector2(600, 600)
 
 [node name="DiscardPile" type="Node2D" parent="."]
-position = Vector2(436, 234)
+position = Vector2(476, 178)
 script = ExtResource("3_1lq7h")
 
 [node name="Deck" parent="." instance=ExtResource("4_c27vo")]
-position = Vector2(580, 235)
+position = Vector2(676, 178)
