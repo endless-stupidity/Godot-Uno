@@ -3,8 +3,8 @@ extends Node
 signal player_hand_changed #when a card is added to or removed from the player hand
 signal discard_pile_changed #when a card is added to or removed from the discard pile
 signal deck_changed #when a card is added to or removed from the deck
-signal cpu1_hand_changed
-signal cpu2_hand_changed
+signal cpu1_hand_changed #when a card is added to or removed from the cpu1's hand
+signal cpu2_hand_changed #ditto
 signal cpu3_hand_changed
 
 var player_count: int = 4 #how many players are playing
@@ -13,8 +13,8 @@ var card_scene = preload("res://Scenes/Cards/Card.tscn") #the card scene
 var deck = [] #the deck from which all cards are drawn
 var discard_pile = [] #the pile where played cards go to
 var player_hand = [] #cards in the player's hand
-var cpu1_hand = []
-var cpu2_hand = []
+var cpu1_hand = [] #cards in cpu1's hand
+var cpu2_hand = [] #ditto
 var cpu3_hand = []
 
 const sprite_map: Dictionary = {
@@ -147,44 +147,27 @@ func draw_to_player_hand(card_count: int) -> void: #removes the amount of wanted
 		refill_deck()
 		draw_to_player_hand(card_count)
 
-func draw_to_cpu1_hand(card_count: int) -> void:
+func draw_to_cpu_hand(card_count: int, cpu_hand: int): #removes the amount of wanted cards from the deck and moves them to given cpu's hand
 	var drawn_cards = []
 	if deck.size() > card_count:
 		for i in range(card_count):
 			var card = deck.pop_back()
 			drawn_cards.append(card)
-		cpu1_hand += drawn_cards
-		emit_signal("deck_changed")
-		emit_signal("cpu1_hand_changed")
+		if cpu_hand == 1:
+			cpu1_hand.append_array(drawn_cards)
+			emit_signal("deck_changed")
+			emit_signal("cpu1_hand_changed")
+		elif cpu_hand == 2:
+			cpu2_hand.append_array(drawn_cards)
+			emit_signal("deck_changed")
+			emit_signal("cpu2_hand_changed")
+		elif cpu_hand == 3:
+			cpu3_hand.append_array(drawn_cards)
+			emit_signal("deck_changed")
+			emit_signal("cpu3_hand_changed")
 	else:
 		refill_deck()
-		draw_to_cpu1_hand(card_count)
-
-func draw_to_cpu2_hand(card_count: int) -> void:
-	var drawn_cards = []
-	if deck.size() > card_count:
-		for i in range(card_count):
-			var card = deck.pop_back()
-			drawn_cards.append(card)
-		cpu2_hand += drawn_cards
-		emit_signal("deck_changed")
-		emit_signal("cpu2_hand_changed")
-	else:
-		refill_deck()
-		draw_to_cpu2_hand(card_count)
-
-func draw_to_cpu3_hand(card_count: int) -> void:
-	var drawn_cards = []
-	if deck.size() > card_count:
-		for i in range(card_count):
-			var card = deck.pop_back()
-			drawn_cards.append(card)
-		cpu3_hand += drawn_cards
-		emit_signal("deck_changed")
-		emit_signal("cpu3_hand_changed")
-	else:
-		refill_deck()
-		draw_to_cpu3_hand(card_count)
+		draw_to_cpu_hand(card_count, cpu_hand)
 
 func draw_to_discard(card_count: int) -> void: #removes the amount of random wanted cards from the deck and moves them to the discard pile
 	var drawn_cards = []

@@ -17,9 +17,9 @@ func init_game() -> void:
 	GameMaster.init_deck()
 	
 	GameMaster.draw_to_player_hand(7)
-	GameMaster.draw_to_cpu1_hand(7)
-	GameMaster.draw_to_cpu2_hand(7)
-	GameMaster.draw_to_cpu3_hand(7)
+	GameMaster.draw_to_cpu_hand(7, 1)
+	GameMaster.draw_to_cpu_hand(7, 2)
+	GameMaster.draw_to_cpu_hand(7, 3)
 	GameMaster.sort_player_hand()
 	
 	GameMaster.draw_to_discard(1)
