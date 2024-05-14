@@ -2,7 +2,9 @@ extends Node2D
 
 @onready var player_hand = $PlayerHand
 @onready var discard_pile = $DiscardPile
-
+@onready var cpu1_hand = $Cpu1Hand
+@onready var cpu2_hand = $Cpu2Hand
+@onready var cpu3_hand = $Cpu3Hand
 
 func _ready() -> void:
 	GameMaster.connect("player_hand_changed", _on_GameMaster_player_hand_changed)
@@ -20,7 +22,6 @@ func init_game() -> void:
 	GameMaster.draw_to_cpu_hand(7, 1)
 	GameMaster.draw_to_cpu_hand(7, 2)
 	GameMaster.draw_to_cpu_hand(7, 3)
-	GameMaster.sort_player_hand()
 	
 	GameMaster.draw_to_discard(1)
 
@@ -34,10 +35,10 @@ func _on_GameMaster_deck_changed() -> void:
 	pass
 
 func _on_GameMaster_cpu1_hand_changed() -> void:
-	pass
+	cpu1_hand.update_cpu1_hand()
 
 func _on_GameMaster_cpu2_hand_changed() -> void:
-	pass
+	cpu2_hand.update_cpu2_hand()
 
 func _on_GameMaster_cpu3_hand_changed() -> void:
-	pass
+	cpu3_hand.update_cpu3_hand()

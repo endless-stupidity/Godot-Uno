@@ -1,19 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=8 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="PackedScene" uid="uid://wjo01bdyjbix" path="res://Scenes/Game/PlayerHand.tscn" id="2_hpt1n"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/DiscardPile.gd" id="3_1lq7h"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/Cpu1Hand.gd" id="3_5m5ud"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/Cpu2Hand.gd" id="4_14hu4"]
 [ext_resource type="PackedScene" uid="uid://bunkc8qgqq3co" path="res://Scenes/Game/Deck.tscn" id="4_c27vo"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/Cpu3Hand.gd" id="5_imwwi"]
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
 
 [node name="PlayerHand" parent="." instance=ExtResource("2_hpt1n")]
-position = Vector2(600, 600)
+position = Vector2(600, 700)
+
+[node name="Cpu1Hand" parent="." instance=ExtResource("2_hpt1n")]
+position = Vector2(100, 400)
+rotation = 1.5708
+script = ExtResource("3_5m5ud")
+spread_amount = 150
+
+[node name="Cpu2Hand" parent="." instance=ExtResource("2_hpt1n")]
+position = Vector2(600, 100)
+rotation = 3.14159
+script = ExtResource("4_14hu4")
+spread_amount = 150
+
+[node name="Cpu3Hand" parent="." instance=ExtResource("2_hpt1n")]
+position = Vector2(1100, 400)
+rotation = 4.71239
+script = ExtResource("5_imwwi")
+spread_amount = 150
 
 [node name="DiscardPile" type="Node2D" parent="."]
-position = Vector2(476, 178)
+position = Vector2(476, 400)
 script = ExtResource("3_1lq7h")
 
 [node name="Deck" parent="." instance=ExtResource("4_c27vo")]
-position = Vector2(676, 178)
+position = Vector2(676, 400)

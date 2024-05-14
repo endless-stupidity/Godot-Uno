@@ -7,7 +7,6 @@ var card_rotate_curve: Curve = preload("res://Assets/Curves/CardHandRotateCurve.
 @export var rotation_factor: float = 0.3 #how much should the cards be rotated
 @export var spread_amount: int = 300 #how much should the cards spread on the x axis
 
-
 func clear_player_hand() -> void: #kiils all the children of the player hand
 	for child in get_children():
 		remove_child(child)
@@ -36,7 +35,7 @@ func update_player_hand() -> void: #updates the player hand based on the GameMas
 			
 			card.set_meta("HoverEffect", true)
 			card.set_meta("CanBePlayed", true)
-			card.set_meta("CardBack" , false)
+			card.set_card_back(false)
 			
 			var rotation_amount = card_rotate_curve.sample(hand_ratio)
 			card.rotation = rotation_amount * rotation_factor
@@ -47,4 +46,7 @@ func update_player_hand() -> void: #updates the player hand based on the GameMas
 		var local_position = Vector2(vertical_card_curve.sample(hand_ratio), vertical_card_curve.sample(hand_ratio))
 		tween.tween_property(card, "position", local_position, 0.5)
 		card.rotation = 0
+		card.set_meta("HoverEffect", true)
+		card.set_meta("CanBePlayed", true)
+		card.set_card_back(false)
 		add_child(card)

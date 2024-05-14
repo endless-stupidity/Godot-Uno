@@ -90,3 +90,13 @@ func can_be_played() -> bool: #check if the card can be played according to UNO 
 			return false
 	else:
 		return false
+
+func set_card_back(card_back: bool) -> void:
+	if card_back:
+		set_meta("CardBack" , true)
+		get_node("CardFace").visible = false
+		get_node("CardBack").visible = true
+	else:
+		set_meta("CardBack" , false)
+		get_node("CardFace").visible = true
+		get_node("CardBack").visible = false

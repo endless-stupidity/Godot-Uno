@@ -141,6 +141,7 @@ func draw_to_player_hand(card_count: int) -> void: #removes the amount of wanted
 			var card = deck.pop_back()
 			drawn_cards.append(card)
 		player_hand += drawn_cards
+		sort_player_hand()
 		emit_signal("deck_changed")
 		emit_signal("player_hand_changed")
 	else:
@@ -155,14 +156,17 @@ func draw_to_cpu_hand(card_count: int, cpu_hand: int): #removes the amount of wa
 			drawn_cards.append(card)
 		if cpu_hand == 1:
 			cpu1_hand.append_array(drawn_cards)
+			sort_cpu_hand(1)
 			emit_signal("deck_changed")
 			emit_signal("cpu1_hand_changed")
 		elif cpu_hand == 2:
 			cpu2_hand.append_array(drawn_cards)
+			sort_cpu_hand(2)
 			emit_signal("deck_changed")
 			emit_signal("cpu2_hand_changed")
 		elif cpu_hand == 3:
 			cpu3_hand.append_array(drawn_cards)
+			sort_cpu_hand(3)
 			emit_signal("deck_changed")
 			emit_signal("cpu3_hand_changed")
 	else:
@@ -196,6 +200,18 @@ func get_top_discard_card() -> Node2D: #returns the top card in the discard pile
 func sort_player_hand() -> void: #sorts the cards in the player's hand
 	player_hand.sort_custom(compare_cards)
 	emit_signal("player_hand_changed")
+
+func sort_cpu_hand(cpu_hand: int) -> void:
+	if cpu_hand == 1:
+		cpu1_hand.sort_custom(compare_cards)
+		emit_signal("cpu1_hand_changed")
+	elif cpu_hand == 2:
+		cpu2_hand.sort_custom(compare_cards)
+		emit_signal("cpu2_hand_changed")
+	elif cpu_hand == 3:
+		cpu3_hand.sort_custom(compare_cards)
+		emit_signal("cpu3_hand_changed")
+
 
 func compare_cards(card1, card2): #the sorting algorithm which first sorts cards based on color then value
 	var color_order = {"Blue": 0, "Green": 1, "Red": 2, "Yellow": 3, "Wild": 4}
