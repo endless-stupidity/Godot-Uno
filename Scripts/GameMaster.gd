@@ -89,7 +89,9 @@ const sprite_map: Dictionary = {
 }
 
 func next_turn(skip: bool = false, reverse: bool = false) -> void:
-	var direction_modifier = -1 if reverse else 1
+	if reverse:
+		clockwise = not clockwise
+	var direction_modifier = 1 if clockwise else -1
 	if skip:
 		direction_modifier *= 2
 	var new_index = (current_player + direction_modifier) % players.size()

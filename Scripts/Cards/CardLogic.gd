@@ -1,5 +1,7 @@
 extends Node2D
 
+signal card_played(card_color: String, card_value: String)
+
 @export var scaling_amount = 1.2 #how big the card gets when hovered and selected
 @export var angle_x_max: float #the intensity of the 3d rotation effect
 @export var angle_y_max: float #same as the last var
@@ -71,24 +73,28 @@ func set_atop() -> void:
 			highest_z_index = card.z_index
 	z_index = highest_z_index + 1
 	
-func play_card(played_from: int, selected_card: Node2D) -> void: #remove the card from the player hand and add it to the discard pile
+func play_card(played_from: int, selected_card: Node2D) -> void: #remove the card from the given hand and add it to the discard pile
 	match played_from:
 		0:
 			var played_card_index = GameMaster.player_hand.find(selected_card)
 			var played_card = GameMaster.player_hand[played_card_index]
 			GameMaster.play_to_discard(0, played_card)
+			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 		1:
 			var played_card_index = GameMaster.cpu1_hand.find(selected_card)
 			var played_card = GameMaster.cpu1_hand[played_card_index]
 			GameMaster.play_to_discard(1, played_card)
+			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 		2:
 			var played_card_index = GameMaster.cpu2_hand.find(selected_card)
 			var played_card = GameMaster.cpu2_hand[played_card_index]
 			GameMaster.play_to_discard(2, played_card)
+			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 		3:
 			var played_card_index = GameMaster.cpu3_hand.find(selected_card)
 			var played_card = GameMaster.cpu3_hand[played_card_index]
 			GameMaster.play_to_discard(3, played_card)
+			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 
 func can_be_played() -> bool: #check if the card can be played according to UNO rules
 	var played_card_color = get_meta("Color")
