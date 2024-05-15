@@ -7,6 +7,10 @@ signal cpu1_hand_changed #when a card is added to or removed from the cpu1's han
 signal cpu2_hand_changed #ditto
 signal cpu3_hand_changed
 
+var players = ["player", "cpu1", "cpu2", "cpu3"]
+var current_player: int = 0
+var clockwise = true
+
 var player_count: int = 4 #how many players are playing
 var card_scene = preload("res://Scenes/Cards/Card.tscn") #the card scene
 
@@ -83,6 +87,15 @@ const sprite_map: Dictionary = {
 		"PickFour": preload("res://Assets/Cards/Wild/wild_pickfour.png"),
 	},
 }
+
+func next_turn(skip: bool = false, reverse: bool = false) -> void:
+	var direction_modifier = -1 if reverse else 1
+	if skip:
+		direction_modifier *= 2
+	var new_index = (current_player + direction_modifier) % players.size()
+	if new_index < 0:
+		new_index += players.size()
+	current_player = new_index
 
 func clear_deck() -> void: #empty the deck
 	deck = []
@@ -188,11 +201,28 @@ func draw_to_discard(card_count: int) -> void: #removes the amount of random wan
 		refill_deck()
 		draw_to_discard(card_count)
 
-func play_to_discard(played_card: Variant): #removes the given card from the player hand and moves it to the discard pile
-	discard_pile.append(played_card)
-	player_hand.erase(played_card)
-	emit_signal("player_hand_changed")
-	emit_signal("discard_pile_changed")
+func play_to_discard(played_from: int, played_card: Variant): #removes the given card from the player hand and moves it to the discard pile
+	match played_from:
+		0:
+			discard_pile.append(played_card)
+			player_hand.erase(played_card)
+			emit_signal("player_hand_changed")
+			emit_signal("discard_pile_changed")
+		1:
+			discard_pile.append(played_card)
+			cpu1_hand.erase(played_card)
+			emit_signal("cpu1_hand_changed")
+			emit_signal("discard_pile_changed")
+		2:
+			discard_pile.append(played_card)
+			cpu2_hand.erase(played_card)
+			emit_signal("cpu2_hand_changed")
+			emit_signal("discard_pile_changed")
+		3:
+			discard_pile.append(played_card)
+			cpu3_hand.erase(played_card)
+			emit_signal("cpu3_hand_changed")
+			emit_signal("discard_pile_changed")
 
 func get_top_discard_card() -> Node2D: #returns the top card in the discard pile
 	return discard_pile[-1]

@@ -32,7 +32,7 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if hovering and event.pressed:
 				if can_be_played():
-					play_card()
+					play_card(0, self)
 	if hovering and get_meta("HoverEffect"): #idk what math is used here but it works and gives the card the 3d perspective we all love
 		var mouse_pos = get_local_mouse_position()
 
@@ -71,10 +71,24 @@ func set_atop() -> void:
 			highest_z_index = card.z_index
 	z_index = highest_z_index + 1
 	
-func play_card() -> void: #remove the card from the player hand and add it to the discard pile
-	var played_card_index = GameMaster.player_hand.find(self)
-	var played_card = GameMaster.player_hand[played_card_index]
-	GameMaster.play_to_discard(played_card)
+func play_card(played_from: int, selected_card: Node2D) -> void: #remove the card from the player hand and add it to the discard pile
+	match played_from:
+		0:
+			var played_card_index = GameMaster.player_hand.find(selected_card)
+			var played_card = GameMaster.player_hand[played_card_index]
+			GameMaster.play_to_discard(0, played_card)
+		1:
+			var played_card_index = GameMaster.cpu1_hand.find(selected_card)
+			var played_card = GameMaster.cpu1_hand[played_card_index]
+			GameMaster.play_to_discard(1, played_card)
+		2:
+			var played_card_index = GameMaster.cpu2_hand.find(selected_card)
+			var played_card = GameMaster.cpu2_hand[played_card_index]
+			GameMaster.play_to_discard(2, played_card)
+		3:
+			var played_card_index = GameMaster.cpu3_hand.find(selected_card)
+			var played_card = GameMaster.cpu3_hand[played_card_index]
+			GameMaster.play_to_discard(3, played_card)
 
 func can_be_played() -> bool: #check if the card can be played according to UNO rules
 	var played_card_color = get_meta("Color")
