@@ -37,7 +37,7 @@ func _input(event: InputEvent) -> void:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if hovering and event.pressed:
 				if can_be_played():
-					play_card(0, self)
+					play_card(0)
 	if hovering and get_meta("HoverEffect"): #idk what math is used here but it works and gives the card the 3d perspective we all love
 		var mouse_pos = get_local_mouse_position()
 
@@ -76,7 +76,7 @@ func set_atop() -> void:
 			highest_z_index = card.z_index
 	z_index = highest_z_index + 1
 	
-func play_card(played_from: int, selected_card: Node2D) -> void: #remove the card from the given hand and add it to the discard pile
+func play_card(played_from: int, selected_card: Node2D = self) -> void: #remove the card from the given hand and add it to the discard pile
 	match played_from:
 		0:
 			var played_card_index = GameMaster.player_hand.find(selected_card)
@@ -99,10 +99,10 @@ func play_card(played_from: int, selected_card: Node2D) -> void: #remove the car
 			GameMaster.play_to_discard(3, played_card)
 			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 
-func can_be_played() -> bool: #check if the card can be played according to UNO rules
-	var played_card_color = get_meta("Color")
-	var played_card_value = get_meta("Value")
-	if get_meta("CanBePlayed"):
+func can_be_played(card: Node2D = self, cpu_hand: bool = false) -> bool: #check if the card can be played according to UNO rules
+	var played_card_color = card.get_meta("Color")
+	var played_card_value = card.get_meta("Value")
+	if cpu_hand:
 		if played_card_color == "Wild":
 			return true
 		elif played_card_color == GameMaster.get_top_discard_card().get_meta("Color"):
@@ -112,7 +112,17 @@ func can_be_played() -> bool: #check if the card can be played according to UNO 
 		else:
 			return false
 	else:
-		return false
+		if card.get_meta("CanBePlayed"):
+			if played_card_color == "Wild":
+				return true
+			elif played_card_color == GameMaster.get_top_discard_card().get_meta("Color"):
+				return true
+			elif played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
+				return true
+			else:
+				return false
+		else:
+			return false
 
 func set_card_back(card_back: bool) -> void:
 	if card_back:

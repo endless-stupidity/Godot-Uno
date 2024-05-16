@@ -205,7 +205,7 @@ func draw_to_discard(card_count: int) -> void: #removes the amount of random wan
 		refill_deck()
 		draw_to_discard(card_count)
 
-func play_to_discard(played_from: int, played_card: Variant): #removes the given card from the player hand and moves it to the discard pile
+func play_to_discard(played_from: int, played_card: Variant): #removes the given card from the given hand and moves it to the discard pile
 	match played_from:
 		0:
 			discard_pile.append(played_card)
@@ -227,6 +227,43 @@ func play_to_discard(played_from: int, played_card: Variant): #removes the given
 			cpu3_hand.erase(played_card)
 			emit_signal("cpu3_hand_changed")
 			emit_signal("discard_pile_changed")
+
+func cpu_play(cpu_id: int) -> void:
+	var playable_cards = []
+	var random_delay = randf_range(1.0, 3.0)
+	await get_tree().create_timer(random_delay).timeout
+	match cpu_id:
+		1:
+			for card in cpu1_hand:
+				if card.can_be_played(card, true):
+					playable_cards.append(card)
+			if playable_cards.size() > 0:
+				var card_to_play = playable_cards.pick_random()
+				card_to_play.play_card(cpu_id)
+			else:
+				draw_to_cpu_hand(1, cpu_id)
+				cpu_play(cpu_id)
+		2:
+			for card in cpu2_hand:
+				if card.can_be_played(card, true):
+					playable_cards.append(card)
+			if playable_cards.size() > 0:
+				var card_to_play = playable_cards.pick_random()
+				card_to_play.play_card(cpu_id)
+			else:
+				draw_to_cpu_hand(1, cpu_id)
+				cpu_play(cpu_id)
+		3:
+			for card in cpu3_hand:
+				if card.can_be_played(card, true):
+					playable_cards.append(card)
+			if playable_cards.size() > 0:
+				var card_to_play = playable_cards.pick_random()
+				card_to_play.play_card(cpu_id)
+			else:
+				draw_to_cpu_hand(1, cpu_id)
+				cpu_play(cpu_id)
+
 
 func get_top_discard_card() -> Node2D: #returns the top card in the discard pile
 	return discard_pile[-1]

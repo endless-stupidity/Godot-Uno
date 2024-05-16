@@ -50,10 +50,13 @@ func _on_GameMaster_new_round() -> void:
 			player_hand.can_play()
 		1:
 			player_hand.can_play(false)
+			GameMaster.cpu_play(1)
 		2:
 			player_hand.can_play(false)
+			GameMaster.cpu_play(2)
 		3:
 			player_hand.can_play(false)
+			GameMaster.cpu_play(3)
 	
 	print(str(GameMaster.players[GameMaster.current_player]))
 
