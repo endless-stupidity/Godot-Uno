@@ -6,6 +6,7 @@ signal deck_changed #when a card is added to or removed from the deck
 signal cpu1_hand_changed #when a card is added to or removed from the cpu1's hand
 signal cpu2_hand_changed #ditto
 signal cpu3_hand_changed
+signal new_round()
 
 var players = ["player", "cpu1", "cpu2", "cpu3"]
 var current_player: int = 0
@@ -98,6 +99,7 @@ func next_turn(skip: bool = false, reverse: bool = false) -> void:
 	if new_index < 0:
 		new_index += players.size()
 	current_player = new_index
+	new_round.emit()
 
 func clear_deck() -> void: #empty the deck
 	deck = []

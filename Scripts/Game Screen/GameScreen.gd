@@ -13,6 +13,7 @@ func _ready() -> void:
 	GameMaster.connect("cpu1_hand_changed", _on_GameMaster_cpu1_hand_changed)
 	GameMaster.connect("cpu2_hand_changed", _on_GameMaster_cpu2_hand_changed)
 	GameMaster.connect("cpu3_hand_changed", _on_GameMaster_cpu3_hand_changed)
+	GameMaster.connect("new_round", _on_GameMaster_new_round)
 	init_game()
 
 func init_game() -> void:
@@ -43,5 +44,25 @@ func _on_GameMaster_cpu2_hand_changed() -> void:
 func _on_GameMaster_cpu3_hand_changed() -> void:
 	cpu3_hand.update_cpu3_hand()
 
+func _on_GameMaster_new_round() -> void:
+	match GameMaster.current_player:
+		0:
+			player_hand.can_play()
+		1:
+			player_hand.can_play(false)
+		2:
+			player_hand.can_play(false)
+		3:
+			player_hand.can_play(false)
+	
+	print(str(GameMaster.players[GameMaster.current_player]))
+
 func _on_card_played(card_color: String, card_value: String) -> void:
-	player_hand.can_play(false)
+	var skip = false
+	var reverse = false
+	if card_value == "Skip":
+		skip = true
+	elif card_value == "Reverse":
+		reverse = true
+	
+	GameMaster.next_turn(skip, reverse)
