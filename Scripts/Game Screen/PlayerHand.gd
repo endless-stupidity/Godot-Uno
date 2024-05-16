@@ -50,3 +50,15 @@ func update_player_hand() -> void: #updates the player hand based on the GameMas
 		card.set_meta("CanBePlayed", true)
 		card.set_card_back(false)
 		add_child(card)
+
+func can_play(play: bool = true) -> void:
+	if play:
+		for card in get_children():
+			card.get_child(0).material.set_shader_parameter("grayscale", false)
+			card.set_meta("HoverEffect", true)
+			card.set_meta("CanBePlayed", true)
+	else:
+		for card in get_children():
+			card.get_child(0).material.set_shader_parameter("grayscale", true)
+			card.set_meta("HoverEffect", false)
+			card.set_meta("CanBePlayed", false)

@@ -14,6 +14,8 @@ uniform float x_rot : hint_range(-180, 180) = 0.0;
 uniform float inset : hint_range(0, 1) = 0.0;
 // Consider changing this to a uniform and changing it from code
 
+uniform bool grayscale = false;
+
 varying flat vec2 o;
 varying vec3 p;
 
@@ -52,6 +54,14 @@ void vertex(){
 void fragment(){
 	if (cull_back && p.z <= 0.0) discard;
 	vec2 uv = (p.xy / p.z).xy - o;
-    COLOR = texture(TEXTURE, uv + 0.5);
+	
+	if (grayscale) {
+		vec4 tex_color = texture(TEXTURE, uv + 0.5);
+		float gray = dot(tex_color.rgb, vec3(0.299, 0.587, 0.114));
+		COLOR = vec4(vec3(gray), tex_color.a);
+	} else {
+		COLOR = texture(TEXTURE, uv + 0.5);
+	}
+	
 	COLOR.a *= step(max(abs(uv.x), abs(uv.y)), 0.5);
 }
