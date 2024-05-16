@@ -42,3 +42,6 @@ func _on_GameMaster_cpu2_hand_changed() -> void:
 
 func _on_GameMaster_cpu3_hand_changed() -> void:
 	cpu3_hand.update_cpu3_hand()
+
+func _on_card_played(card_color: String, card_value: String) -> void:
+	print(card_color + " " + card_value + " played")

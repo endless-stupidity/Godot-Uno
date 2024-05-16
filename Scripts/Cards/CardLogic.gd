@@ -15,6 +15,9 @@ var default_scale: Vector2 #the scale of the card when initialized
 var hovering = false #is the mouse hovering over the card
 
 func _ready() -> void:
+	var game_screen = get_tree().root.get_node("GameScreen")
+	card_played.connect(game_screen._on_card_played)
+	
 	default_z_index = z_index
 	default_scale = scale
 	if (get_meta("CardBack")): #set card face or card back based on the metadata
