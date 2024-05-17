@@ -105,7 +105,7 @@ func can_be_played(card: Node2D = self, cpu_hand: bool = false) -> bool: #check 
 	if cpu_hand:
 		if played_card_color == "Wild":
 			return true
-		elif played_card_color == GameMaster.get_top_discard_card().get_meta("Color"):
+		elif played_card_color == GameMaster.current_color:
 			return true
 		elif played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
 			return true
@@ -115,7 +115,7 @@ func can_be_played(card: Node2D = self, cpu_hand: bool = false) -> bool: #check 
 		if card.get_meta("CanBePlayed"):
 			if played_card_color == "Wild":
 				return true
-			elif played_card_color == GameMaster.get_top_discard_card().get_meta("Color"):
+			elif played_card_color == GameMaster.current_color:
 				return true
 			elif played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
 				return true

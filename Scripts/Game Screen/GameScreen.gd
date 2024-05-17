@@ -5,6 +5,7 @@ extends Node2D
 @onready var cpu1_hand = $Cpu1Hand
 @onready var cpu2_hand = $Cpu2Hand
 @onready var cpu3_hand = $Cpu3Hand
+@onready var game_hud = $GameHud
 
 func _ready() -> void:
 	GameMaster.connect("player_hand_changed", _on_GameMaster_player_hand_changed)
@@ -25,6 +26,7 @@ func init_game() -> void:
 	GameMaster.draw_to_cpu_hand(7, 3)
 	
 	GameMaster.draw_to_discard(1)
+	game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
 
 func _on_GameMaster_player_hand_changed() -> void:
 	player_hand.update_player_hand()
@@ -47,25 +49,35 @@ func _on_GameMaster_cpu3_hand_changed() -> void:
 func _on_GameMaster_new_round() -> void:
 	match GameMaster.current_player:
 		0:
+			game_hud.change_pointer_position(0.0, 0.75)
 			player_hand.can_play()
 		1:
+			game_hud.change_pointer_position(0.25, 0.75)
 			player_hand.can_play(false)
 			GameMaster.cpu_play(1)
 		2:
+			game_hud.change_pointer_position(0.5, 0.75)
 			player_hand.can_play(false)
 			GameMaster.cpu_play(2)
 		3:
+			game_hud.change_pointer_position(0.75, 0.75)
 			player_hand.can_play(false)
 			GameMaster.cpu_play(3)
 	
 	print(str(GameMaster.players[GameMaster.current_player]))
 
 func _on_card_played(card_color: String, card_value: String) -> void:
+	match card_color:
+		"Blue", "Green", "Red", "Yellow":
+			GameMaster.current_color = card_color
+		"Wild":
+			pass
+	game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+	
 	var skip = false
 	var reverse = false
 	if card_value == "Skip":
 		skip = true
 	elif card_value == "Reverse":
 		reverse = true
-	
 	GameMaster.next_turn(skip, reverse)

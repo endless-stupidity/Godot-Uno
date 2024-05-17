@@ -10,6 +10,7 @@ signal new_round()
 
 var players = ["player", "cpu1", "cpu2", "cpu3"]
 var current_player: int = 0
+var current_color: String
 var clockwise = true
 
 var player_count: int = 4 #how many players are playing
@@ -21,6 +22,13 @@ var player_hand = [] #cards in the player's hand
 var cpu1_hand = [] #cards in cpu1's hand
 var cpu2_hand = [] #ditto
 var cpu3_hand = []
+
+const color_map = {
+	"Blue": Color(0, 0.764, 0.898),
+	"Green": Color(0.184, 0.886, 0.607),
+	"Red": Color(0.960, 0.392, 0.384),
+	"Yellow": Color(0.968, 0.890, 0.349),
+}
 
 const sprite_map: Dictionary = {
 	"Blue": {
@@ -199,6 +207,7 @@ func draw_to_discard(card_count: int) -> void: #removes the amount of random wan
 		discard_pile += drawn_cards
 		for card in drawn_cards:
 			deck.erase(card)
+		current_color = get_top_discard_card().get_meta("Color")
 		emit_signal("deck_changed")
 		emit_signal("discard_pile_changed")
 	else:
