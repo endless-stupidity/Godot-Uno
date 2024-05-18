@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=21 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/CirclePointer.gd" id="3_hpjf7"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Cpu2Hand.gd" id="4_14hu4"]
 [ext_resource type="PackedScene" uid="uid://bunkc8qgqq3co" path="res://Scenes/Game/Deck.tscn" id="4_c27vo"]
+[ext_resource type="Shader" path="res://Assets/Shaders/BlurShader.gdshader" id="4_mpp7n"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Cpu3Hand.gd" id="5_imwwi"]
+[ext_resource type="Shader" path="res://Assets/Shaders/ChromaticAbberation.gdshader" id="10_c4hpj"]
 
 [sub_resource type="Curve2D" id="Curve2D_emmi7"]
 _data = {
@@ -17,6 +19,76 @@ _data = {
 point_count = 5
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_jk05y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s8xig"]
+shader = ExtResource("10_c4hpj")
+shader_parameter/r_displacement = Vector2(5, 0)
+shader_parameter/g_displacement = Vector2(5, 0)
+shader_parameter/b_displacement = Vector2(-5, 0)
+shader_parameter/noise_amount = 500.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r6cy3"]
+resource_local_to_scene = true
+shader = ExtResource("4_mpp7n")
+shader_parameter/blur_amount = 1.618
+shader_parameter/mix_amount = 0.27
+shader_parameter/color_over = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f55kq"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_color = Color(0.811765, 0.8, 0.8, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpb6v"]
+bg_color = Color(0, 0.764706, 0.898039, 0.756863)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0.788235, 0.898039, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ro04n"]
+bg_color = Color(0.184314, 0.886275, 0.607843, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.25098, 0.670588, 0.498039, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5ccft"]
+bg_color = Color(0.960784, 0.392157, 0.384314, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.960784, 0.231373, 0.384314, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chmkd"]
+bg_color = Color(0.968627, 0.890196, 0.34902, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.968627, 0.678431, 0.34902, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
@@ -67,3 +139,98 @@ script = ExtResource("3_1lq7h")
 
 [node name="Deck" parent="." instance=ExtResource("4_c27vo")]
 position = Vector2(676, 400)
+
+[node name="ColorSelector" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1200.0
+offset_bottom = 800.0
+
+[node name="Background" type="ColorRect" parent="ColorSelector"]
+material = SubResource("ShaderMaterial_s8xig")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorSelectorPanel" type="Control" parent="ColorSelector"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -170.0
+offset_right = 336.0
+offset_bottom = 170.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelBackground" type="Panel" parent="ColorSelector/ColorSelectorPanel"]
+material = SubResource("ShaderMaterial_r6cy3")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_f55kq")
+
+[node name="Buttons" type="HBoxContainer" parent="ColorSelector/ColorSelectorPanel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -7.0
+offset_right = -20.0
+offset_bottom = 147.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="ButtonBlue" type="Panel" parent="ColorSelector/ColorSelectorPanel/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_dpb6v")
+
+[node name="ButtonGreen" type="Panel" parent="ColorSelector/ColorSelectorPanel/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_ro04n")
+
+[node name="ButtonRed" type="Panel" parent="ColorSelector/ColorSelectorPanel/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_5ccft")
+
+[node name="ButtonYellow" type="Panel" parent="ColorSelector/ColorSelectorPanel/Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_chmkd")
+
+[node name="ChooseColorText" type="RichTextLabel" parent="ColorSelector/ColorSelectorPanel"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -215.0
+offset_top = 10.0
+offset_right = 215.0
+offset_bottom = -192.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[center][font s=50]Choose a New [wave][rainbow freq=0.2 sat=0.4 val=0.9]Color[/rainbow][/wave] to Play"
+fit_content = true
+scroll_active = false
+shortcut_keys_enabled = false
+deselect_on_focus_loss_enabled = false
+drag_and_drop_selection_enabled = false
