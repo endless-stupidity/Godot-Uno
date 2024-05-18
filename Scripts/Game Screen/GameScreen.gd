@@ -6,6 +6,7 @@ extends Node2D
 @onready var cpu2_hand = $Cpu2Hand
 @onready var cpu3_hand = $Cpu3Hand
 @onready var game_hud = $GameHud
+@onready var color_selector = $ColorSelector
 
 func _ready() -> void:
 	GameMaster.connect("player_hand_changed", _on_GameMaster_player_hand_changed)
@@ -71,7 +72,8 @@ func _on_card_played(card_color: String, card_value: String) -> void:
 		"Blue", "Green", "Red", "Yellow":
 			GameMaster.current_color = card_color
 		"Wild":
-			pass
+			color_selector.show()
+			await color_selector.color_selected
 	game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
 	
 	var skip = false

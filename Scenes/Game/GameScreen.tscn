@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=22 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -11,6 +11,7 @@
 [ext_resource type="Shader" path="res://Assets/Shaders/BlurShader.gdshader" id="4_mpp7n"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Cpu3Hand.gd" id="5_imwwi"]
 [ext_resource type="Shader" path="res://Assets/Shaders/ChromaticAbberation.gdshader" id="10_c4hpj"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/ColorSelector.gd" id="10_jfgc4"]
 
 [sub_resource type="Curve2D" id="Curve2D_emmi7"]
 _data = {
@@ -23,8 +24,8 @@ point_count = 5
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s8xig"]
 shader = ExtResource("10_c4hpj")
 shader_parameter/r_displacement = Vector2(5, 0)
-shader_parameter/g_displacement = Vector2(5, 0)
-shader_parameter/b_displacement = Vector2(-5, 0)
+shader_parameter/g_displacement = Vector2(-1, 5)
+shader_parameter/b_displacement = Vector2(5, 0)
 shader_parameter/noise_amount = 500.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r6cy3"]
@@ -146,6 +147,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1200.0
 offset_bottom = 800.0
+script = ExtResource("10_jfgc4")
+background_color_transition_time = 0.5
 
 [node name="Background" type="ColorRect" parent="ColorSelector"]
 material = SubResource("ShaderMaterial_s8xig")
@@ -234,3 +237,16 @@ scroll_active = false
 shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
+
+[connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_gui_input"]
+[connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_mouse_entered"]
+[connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_mouse_exited"]
+[connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonGreen" to="ColorSelector" method="_on_button_green_gui_input"]
+[connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonGreen" to="ColorSelector" method="_on_button_green_mouse_entered"]
+[connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonGreen" to="ColorSelector" method="_on_button_green_mouse_exited"]
+[connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonRed" to="ColorSelector" method="_on_button_red_gui_input"]
+[connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonRed" to="ColorSelector" method="_on_button_red_mouse_entered"]
+[connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonRed" to="ColorSelector" method="_on_button_red_mouse_exited"]
+[connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_gui_input"]
+[connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_mouse_entered"]
+[connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_mouse_exited"]
