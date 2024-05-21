@@ -29,8 +29,8 @@ func init_game() -> void:
 	GameMaster.draw_to_discard(1)
 	if GameMaster.get_top_discard_card().get_meta("Color") == "Wild":
 		GameMaster.current_color = GameMaster.color_map.keys().pick_random()
-	else:
-		game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+	game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+	game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
 
 func _on_GameMaster_player_hand_changed() -> void:
 	player_hand.update_player_hand()
@@ -54,17 +54,21 @@ func _on_GameMaster_new_round() -> void:
 	match GameMaster.current_player:
 		0:
 			game_hud.change_pointer_position(0.0, 0.75)
+			game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
 			player_hand.can_play()
 		1:
 			game_hud.change_pointer_position(0.25, 0.75)
+			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
 			player_hand.can_play(false)
 			GameMaster.cpu_play(1)
 		2:
 			game_hud.change_pointer_position(0.5, 0.75)
+			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
 			player_hand.can_play(false)
 			GameMaster.cpu_play(2)
 		3:
 			game_hud.change_pointer_position(0.75, 0.75)
+			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
 			player_hand.can_play(false)
 			GameMaster.cpu_play(3)
 	

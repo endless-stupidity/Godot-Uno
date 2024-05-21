@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=25 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -21,6 +21,18 @@ _data = {
 point_count = 5
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_jk05y"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hckos"]
+shader = ExtResource("4_mpp7n")
+shader_parameter/blur_amount = 1.348
+shader_parameter/mix_amount = 0.124
+shader_parameter/color_over = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0vlb0"]
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s8xig"]
 shader = ExtResource("10_c4hpj")
@@ -102,7 +114,7 @@ offset_right = 1200.0
 offset_bottom = 800.0
 script = ExtResource("2_4neoy")
 
-[node name="TextureRect" type="TextureRect" parent="GameHud"]
+[node name="Background" type="TextureRect" parent="GameHud"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,6 +136,27 @@ rotation = 3.14159
 scale = Vector2(0.25, 0.25)
 texture = SubResource("ViewportTexture_jk05y")
 script = ExtResource("3_hpjf7")
+
+[node name="TakeCardButton" type="Panel" parent="GameHud"]
+material = SubResource("ShaderMaterial_hckos")
+layout_mode = 0
+offset_left = 20.0
+offset_top = 724.0
+offset_right = 186.0
+offset_bottom = 779.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0vlb0")
+
+[node name="TakeCardLabel" type="Label" parent="GameHud/TakeCardButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 17
+text = "Take Cards"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PlayerHand" parent="." instance=ExtResource("2_hpt1n")]
 position = Vector2(600, 700)
@@ -250,6 +283,7 @@ shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
+[connection signal="gui_input" from="GameHud/TakeCardButton" to="GameHud" method="_on_take_card_button_gui_input"]
 [connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_gui_input"]
 [connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_mouse_entered"]
 [connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_mouse_exited"]

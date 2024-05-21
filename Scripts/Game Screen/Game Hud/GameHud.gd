@@ -2,6 +2,8 @@ extends Control
 
 @onready var path_follower = $TurnIndicatorPath/PathFollow2D
 @onready var pointer = $TurnIndicatorPath/PathFollow2D/Pointer
+@onready var take_card_button = $TakeCardButton
+@onready var take_card_label = $TakeCardButton/TakeCardLabel
 
 func change_pointer_color(target_color: Color, transition_time: float = 0) -> void:
 	var tween = create_tween()
@@ -9,7 +11,6 @@ func change_pointer_color(target_color: Color, transition_time: float = 0) -> vo
 
 func change_pointer_position(target_progress_ratio: float, transition_time: float = 0) -> void:
 	var tween = create_tween().parallel()
-	tween.set_trans(Tween.TRANS_CUBIC)
 	var current_progress_ratio = path_follower.progress_ratio
 	if transition_time == 0:
 		path_follower.progress_ratio = target_progress_ratio
@@ -28,3 +29,13 @@ func change_pointer_position(target_progress_ratio: float, transition_time: floa
 				tween.chain().tween_property(path_follower, "progress_ratio", target_progress_ratio, transition_time)
 			else:
 				tween.tween_property(path_follower, "progress_ratio", target_progress_ratio, transition_time)
+
+func change_take_card_button_color(target_color: Color, transition_time: float = 0.0) -> void:
+	var tween = create_tween()
+	tween.tween_property(take_card_button, "material:shader_parameter/color_over", target_color, transition_time)
+
+func _on_take_card_button_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed():
+		if GameMaster.current_player == 0:
+			GameMaster.draw_to_player_hand(1)
+
