@@ -1,16 +1,14 @@
-[gd_scene load_steps=25 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=23 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
 [ext_resource type="PackedScene" uid="uid://wjo01bdyjbix" path="res://Scenes/Game/PlayerHand.tscn" id="2_hpt1n"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/DiscardPile.gd" id="3_1lq7h"]
 [ext_resource type="Texture2D" uid="uid://k6swaqfum4yh" path="res://Assets/Background/GrayStonyStuff.jpg" id="3_2xa2l"]
-[ext_resource type="Script" path="res://Scripts/Game Screen/Cpu1Hand.gd" id="3_5m5ud"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/CirclePointer.gd" id="3_hpjf7"]
-[ext_resource type="Script" path="res://Scripts/Game Screen/Cpu2Hand.gd" id="4_14hu4"]
 [ext_resource type="PackedScene" uid="uid://bunkc8qgqq3co" path="res://Scenes/Game/Deck.tscn" id="4_c27vo"]
 [ext_resource type="Shader" path="res://Assets/Shaders/BlurShader.gdshader" id="4_mpp7n"]
-[ext_resource type="Script" path="res://Scripts/Game Screen/Cpu3Hand.gd" id="5_imwwi"]
+[ext_resource type="PackedScene" uid="uid://drfnlr2ho0sas" path="res://Scenes/Game/HandManager.tscn" id="7_6vys6"]
 [ext_resource type="Shader" path="res://Assets/Shaders/ChromaticAbberation.gdshader" id="10_c4hpj"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/ColorSelector.gd" id="10_jfgc4"]
 
@@ -160,24 +158,42 @@ vertical_alignment = 1
 
 [node name="PlayerHand" parent="." instance=ExtResource("2_hpt1n")]
 position = Vector2(600, 700)
+script = null
+
+[node name="HandManager" parent="PlayerHand" instance=ExtResource("7_6vys6")]
+hand_id = "Player's Hand"
+rotation_factor = 0.4
+spread_amount = 100
 
 [node name="Cpu1Hand" parent="." instance=ExtResource("2_hpt1n")]
 position = Vector2(100, 400)
 rotation = 1.5708
-script = ExtResource("3_5m5ud")
-spread_amount = 150
+script = null
+
+[node name="HandManager" parent="Cpu1Hand" instance=ExtResource("7_6vys6")]
+hand_id = "Cpu1's Hand"
+rotation_factor = 0.3
+spread_amount = 300
 
 [node name="Cpu2Hand" parent="." instance=ExtResource("2_hpt1n")]
 position = Vector2(600, 100)
 rotation = 3.14159
-script = ExtResource("4_14hu4")
-spread_amount = 150
+script = null
+
+[node name="HandManager" parent="Cpu2Hand" instance=ExtResource("7_6vys6")]
+hand_id = "Cpu2's Hand"
+rotation_factor = 0.3
+spread_amount = 300
 
 [node name="Cpu3Hand" parent="." instance=ExtResource("2_hpt1n")]
 position = Vector2(1100, 400)
 rotation = 4.71239
-script = ExtResource("5_imwwi")
-spread_amount = 150
+script = null
+
+[node name="HandManager" parent="Cpu3Hand" instance=ExtResource("7_6vys6")]
+hand_id = "Cpu3's Hand"
+rotation_factor = 0.3
+spread_amount = 300
 
 [node name="DiscardPile" type="Node2D" parent="."]
 position = Vector2(476, 400)
