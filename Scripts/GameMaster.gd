@@ -8,6 +8,8 @@ signal cpu2_hand_changed #ditto
 signal cpu3_hand_changed
 signal new_round()
 
+@onready var card_draw_sfx = $CardDrawSfx
+
 var players = ["player", "cpu1", "cpu2", "cpu3"]
 var current_player: int = 0
 var current_color: String
@@ -155,10 +157,11 @@ func draw_from_deck(card_count: int) -> Array: #removes the amount of wanted car
 			var card = deck.pop_back()
 			drawn_cards.append(card)
 		emit_signal("deck_changed")
+		card_draw_sfx.play()
 		return drawn_cards
 	else:
 		refill_deck()
-		return draw_from_deck(card_count)
+		return await draw_from_deck(card_count)
 
 func draw_to_player_hand(card_count: int) -> void: #removes the amount of wanted cards from the deck and moves them to player's hand
 	var drawn_cards = []
@@ -170,6 +173,7 @@ func draw_to_player_hand(card_count: int) -> void: #removes the amount of wanted
 		sort_player_hand()
 		emit_signal("deck_changed")
 		emit_signal("player_hand_changed")
+		card_draw_sfx.play()
 	else:
 		refill_deck()
 		draw_to_player_hand(card_count)
@@ -177,6 +181,7 @@ func draw_to_player_hand(card_count: int) -> void: #removes the amount of wanted
 func draw_to_cpu_hand(card_count: int, cpu_hand: int): #removes the amount of wanted cards from the deck and moves them to given cpu's hand
 	var drawn_cards = []
 	if deck.size() > card_count:
+		card_draw_sfx.play()
 		for i in range(card_count):
 			var card = deck.pop_back()
 			drawn_cards.append(card)
