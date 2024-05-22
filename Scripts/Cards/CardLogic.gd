@@ -9,6 +9,8 @@ signal card_played(card_color: String, card_value: String)
 @onready var scale_animate = $AnimationPlayer #get the animation player for smooth scaling
 @onready var scale_up_animation: Animation = scale_animate.get_animation("ScaleUp") #get the scale up animation and adjust its keyframes
 @onready var scale_down_animation: Animation = scale_animate.get_animation("ScaleDown") #same as the scale up animation
+@onready var card_flick_sfx = $CardFlickSfx
+@onready var card_play_sfx = $CardPlaySfx
 
 var default_z_index: int #the z_index of the card when initialized
 var default_scale: Vector2 #the scale of the card when initialized
@@ -57,6 +59,7 @@ func _on_control_mouse_entered() -> void: #when the mouse starts hovering over t
 	if get_meta("HoverEffect"):
 		set_atop() #set the z scale higher than every other card
 		scale_animate.play("ScaleUp")
+		card_flick_sfx.play()
 
 func _on_control_mouse_exited() -> void: #when the mouse stops hovering over the card
 	hovering = false
@@ -82,21 +85,25 @@ func play_card(played_from: int, selected_card: Node2D = self) -> void: #remove 
 			var played_card_index = GameMaster.player_hand.find(selected_card)
 			var played_card = GameMaster.player_hand[played_card_index]
 			GameMaster.play_to_discard(0, played_card)
+			card_play_sfx.play()
 			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 		1:
 			var played_card_index = GameMaster.cpu1_hand.find(selected_card)
 			var played_card = GameMaster.cpu1_hand[played_card_index]
 			GameMaster.play_to_discard(1, played_card)
+			card_play_sfx.play()
 			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 		2:
 			var played_card_index = GameMaster.cpu2_hand.find(selected_card)
 			var played_card = GameMaster.cpu2_hand[played_card_index]
 			GameMaster.play_to_discard(2, played_card)
+			card_play_sfx.play()
 			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 		3:
 			var played_card_index = GameMaster.cpu3_hand.find(selected_card)
 			var played_card = GameMaster.cpu3_hand[played_card_index]
 			GameMaster.play_to_discard(3, played_card)
+			card_play_sfx.play()
 			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 
 func can_be_played(card: Node2D = self, cpu_hand: bool = false, picker: bool = false) -> bool: #check if the card can be played according to UNO rules

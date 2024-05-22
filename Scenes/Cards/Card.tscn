@@ -1,9 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6uplsipocw2w"]
+[gd_scene load_steps=15 format=3 uid="uid://c6uplsipocw2w"]
 
 [ext_resource type="Script" path="res://Scripts/Cards/CardLogic.gd" id="1_2pogy"]
 [ext_resource type="Script" path="res://Scripts/Cards/CardFace.gd" id="2_1x5ym"]
 [ext_resource type="Material" uid="uid://bowp4mq0m8ywt" path="res://Assets/Shaders/2D-Perspective.tres" id="2_phsky"]
 [ext_resource type="Texture2D" uid="uid://cdmi0eppmov04" path="res://Assets/Cards/cardback.png" id="3_djus4"]
+[ext_resource type="AudioStream" uid="uid://ip5p3i4hwh3t" path="res://Assets/Audio/Sfx/Game/CardFlick/CardFlickSfx-01.wav" id="5_4texw"]
+[ext_resource type="AudioStream" uid="uid://1jbfda5kjipp" path="res://Assets/Audio/Sfx/Game/Card Sfx/Card Play.wav" id="5_6l4q3"]
+[ext_resource type="AudioStream" uid="uid://b8tsmn40p5nsa" path="res://Assets/Audio/Sfx/Game/CardFlick/CardFlickSfx-02.wav" id="6_annh5"]
+[ext_resource type="AudioStream" uid="uid://b0f20vim7mxm7" path="res://Assets/Audio/Sfx/Game/CardFlick/CardFlickSfx-03.wav" id="7_7lq35"]
+[ext_resource type="AudioStream" uid="uid://djys5o81lxaw5" path="res://Assets/Audio/Sfx/Game/CardFlick/CardFlickSfx-04.wav" id="8_togcy"]
 
 [sub_resource type="Animation" id="Animation_wqdoy"]
 resource_name = "ScaleDown"
@@ -42,6 +47,26 @@ _data = {
 "ScaleDown": SubResource("Animation_wqdoy"),
 "ScaleUp": SubResource("Animation_d30yj")
 }
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_o2gkp"]
+playback_mode = 1
+random_pitch = 1.5
+streams_count = 4
+stream_0/stream = ExtResource("5_4texw")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("6_annh5")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("7_7lq35")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("8_togcy")
+stream_3/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_pbjab"]
+playback_mode = 1
+random_pitch = 1.5
+streams_count = 1
+stream_0/stream = ExtResource("5_6l4q3")
+stream_0/weight = 1.0
 
 [node name="Card" type="Node2D" groups=["Cards"]]
 scale = Vector2(0.25, 0.25)
@@ -101,6 +126,14 @@ size_flags_vertical = 3
 libraries = {
 "": SubResource("AnimationLibrary_8id3i")
 }
+
+[node name="CardFlickSfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_o2gkp")
+bus = &"Fx"
+
+[node name="CardPlaySfx" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_pbjab")
+volume_db = -4.685
 
 [connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]

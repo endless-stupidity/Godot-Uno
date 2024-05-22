@@ -7,6 +7,7 @@ extends Node2D
 @onready var cpu3_hand = $Cpu3Hand/HandManager
 @onready var game_hud = $GameHud
 @onready var color_selector = $ColorSelector
+@onready var card_shuffle_sfx = $CardShuffleSfx
 
 func _ready() -> void:
 	GameMaster.connect("player_hand_changed", _on_GameMaster_player_hand_changed)
@@ -18,8 +19,8 @@ func _ready() -> void:
 	init_game()
 
 func init_game() -> void:
+	card_shuffle_sfx.play()
 	GameMaster.init_deck()
-	
 	GameMaster.draw_to_player_hand(7)
 	GameMaster.draw_to_cpu_hand(7, 1)
 	GameMaster.draw_to_cpu_hand(7, 2)

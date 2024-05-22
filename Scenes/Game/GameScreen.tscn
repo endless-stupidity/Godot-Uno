@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=24 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://drfnlr2ho0sas" path="res://Scenes/Game/HandManager.tscn" id="7_6vys6"]
 [ext_resource type="Shader" path="res://Assets/Shaders/ChromaticAbberation.gdshader" id="10_c4hpj"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/ColorSelector.gd" id="10_jfgc4"]
+[ext_resource type="AudioStream" uid="uid://dvdddi6crt6y2" path="res://Assets/Audio/Sfx/Game/Card Sfx/Card Shuffle.wav" id="12_sx8a8"]
 
 [sub_resource type="Curve2D" id="Curve2D_emmi7"]
 _data = {
@@ -104,6 +105,10 @@ corner_radius_bottom_left = 30
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
+
+[node name="CardShuffleSfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_sx8a8")
+bus = &"Fx"
 
 [node name="GameHud" type="Control" parent="."]
 layout_mode = 3
