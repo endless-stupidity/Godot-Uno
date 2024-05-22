@@ -113,12 +113,19 @@ func update_hand() -> void:
 			card.set_card_back(true)
 		add_child(card)
 
-func can_play(play: bool = true) -> void:
+func can_play(play: bool = true, picker: bool = false) -> void:
 	if play:
-		for card in get_children():
-			card.get_child(0).material.set_shader_parameter("grayscale", false)
-			card.set_meta("HoverEffect", true)
-			card.set_meta("CanBePlayed", true)
+		if picker:
+			for card in get_children():
+				if card.can_be_played(self, false, true):
+					card.get_child(0).material.set_shader_parameter("grayscale", false)
+					card.set_meta("HoverEffect", true)
+					card.set_meta("CanBePlayed", true)
+		else:
+			for card in get_children():
+				card.get_child(0).material.set_shader_parameter("grayscale", false)
+				card.set_meta("HoverEffect", true)
+				card.set_meta("CanBePlayed", true)
 	else:
 		for card in get_children():
 			card.get_child(0).material.set_shader_parameter("grayscale", true)

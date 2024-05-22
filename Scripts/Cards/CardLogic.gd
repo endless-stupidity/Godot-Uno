@@ -99,20 +99,19 @@ func play_card(played_from: int, selected_card: Node2D = self) -> void: #remove 
 			GameMaster.play_to_discard(3, played_card)
 			emit_signal("card_played", played_card.get_meta("Color"), played_card.get_meta("Value"))
 
-func can_be_played(card: Node2D = self, cpu_hand: bool = false) -> bool: #check if the card can be played according to UNO rules
+func can_be_played(card: Node2D = self, cpu_hand: bool = false, picker: bool = false) -> bool: #check if the card can be played according to UNO rules
 	var played_card_color = card.get_meta("Color")
 	var played_card_value = card.get_meta("Value")
 	if cpu_hand:
-		if played_card_color == "Wild":
-			return true
-		elif played_card_color == GameMaster.current_color:
-			return true
-		elif played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
-			return true
+		if picker:
+			if played_card_value == "Picker" or played_card_value == "PickFour":
+				if played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
+					return true
+				else:
+					return false
+			else:
+				return false
 		else:
-			return false
-	else:
-		if card.get_meta("CanBePlayed"):
 			if played_card_color == "Wild":
 				return true
 			elif played_card_color == GameMaster.current_color:
@@ -121,8 +120,27 @@ func can_be_played(card: Node2D = self, cpu_hand: bool = false) -> bool: #check 
 				return true
 			else:
 				return false
+	else:
+		if picker:
+			if played_card_value == "Picker" or played_card_value == "PickFour":
+				if played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
+					return true
+				else:
+					return false
+			else:
+				return false
 		else:
-			return false
+			if card.get_meta("CanBePlayed"):
+				if played_card_color == "Wild":
+					return true
+				elif played_card_color == GameMaster.current_color:
+					return true
+				elif played_card_value == GameMaster.get_top_discard_card().get_meta("Value"):
+					return true
+				else:
+					return false
+			else:
+				return false
 
 func set_card_back(card_back: bool) -> void:
 	if card_back:

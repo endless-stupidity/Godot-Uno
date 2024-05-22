@@ -244,35 +244,71 @@ func cpu_play(cpu_id: int) -> void:
 	await get_tree().create_timer(random_delay).timeout
 	match cpu_id:
 		1:
-			for card in cpu1_hand:
-				if card.can_be_played(card, true):
-					playable_cards.append(card)
-			if playable_cards.size() > 0:
-				var card_to_play = playable_cards.pick_random()
-				card_to_play.play_card(cpu_id)
+			if cards_to_be_taken > 0:
+				for card in cpu1_hand:
+					if card.can_be_played(card, true, true):
+						playable_cards.append(card)
+				if playable_cards.size() > 0:
+					var card_to_play = playable_cards.pick_random()
+					card_to_play.play_card(cpu_id)
+				else:
+					draw_to_cpu_hand(cards_to_be_taken, cpu_id)
+					cards_to_be_taken = 0
+					cpu_play(cpu_id)
 			else:
-				draw_to_cpu_hand(1, cpu_id)
-				cpu_play(cpu_id)
+				for card in cpu1_hand:
+					if card.can_be_played(card, true):
+						playable_cards.append(card)
+				if playable_cards.size() > 0:
+					var card_to_play = playable_cards.pick_random()
+					card_to_play.play_card(cpu_id)
+				else:
+					draw_to_cpu_hand(1, cpu_id)
+					cpu_play(cpu_id)
 		2:
-			for card in cpu2_hand:
-				if card.can_be_played(card, true):
-					playable_cards.append(card)
-			if playable_cards.size() > 0:
-				var card_to_play = playable_cards.pick_random()
-				card_to_play.play_card(cpu_id)
+			if cards_to_be_taken > 0:
+				for card in cpu2_hand:
+					if card.can_be_played(card, true, true):
+						playable_cards.append(card)
+				if playable_cards.size() > 0:
+					var card_to_play = playable_cards.pick_random()
+					card_to_play.play_card(cpu_id)
+				else:
+					draw_to_cpu_hand(cards_to_be_taken, cpu_id)
+					cards_to_be_taken = 0
+					cpu_play(cpu_id)
 			else:
-				draw_to_cpu_hand(1, cpu_id)
-				cpu_play(cpu_id)
+				for card in cpu2_hand:
+					if card.can_be_played(card, true):
+						playable_cards.append(card)
+				if playable_cards.size() > 0:
+					var card_to_play = playable_cards.pick_random()
+					card_to_play.play_card(cpu_id)
+				else:
+					draw_to_cpu_hand(1, cpu_id)
+					cpu_play(cpu_id)
 		3:
-			for card in cpu3_hand:
-				if card.can_be_played(card, true):
-					playable_cards.append(card)
-			if playable_cards.size() > 0:
-				var card_to_play = playable_cards.pick_random()
-				card_to_play.play_card(cpu_id)
+			if cards_to_be_taken > 0:
+				for card in cpu3_hand:
+					if card.can_be_played(card, true, true):
+						playable_cards.append(card)
+				if playable_cards.size() > 0:
+					var card_to_play = playable_cards.pick_random()
+					card_to_play.play_card(cpu_id)
+				else:
+					draw_to_cpu_hand(cards_to_be_taken, cpu_id)
+					cards_to_be_taken = 0
+					cpu_play(cpu_id)
 			else:
-				draw_to_cpu_hand(1, cpu_id)
-				cpu_play(cpu_id)
+				for card in cpu3_hand:
+					if card.can_be_played(card, true):
+						playable_cards.append(card)
+				if playable_cards.size() > 0:
+					var card_to_play = playable_cards.pick_random()
+					card_to_play.play_card(cpu_id)
+				else:
+					draw_to_cpu_hand(1, cpu_id)
+					cpu_play(cpu_id)
 
 
 func get_top_discard_card() -> Node2D: #returns the top card in the discard pile
