@@ -54,7 +54,7 @@ func _on_GameMaster_new_round() -> void:
 				game_hud.change_take_card_button_number(1, 0.5)
 				game_hud.change_pointer_position(0.0, 0.75)
 				game_hud.change_take_card_button_number(GameMaster.cards_to_be_taken, 0.5)
-				player_hand.can_play(false, true)
+				player_hand.can_play(true, true)
 				await game_hud.take_card_button_clicked
 				player_hand.can_play()
 			else:

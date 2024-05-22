@@ -117,7 +117,7 @@ func can_play(play: bool = true, picker: bool = false) -> void:
 	if play:
 		if picker:
 			for card in get_children():
-				if card.can_be_played(self, false, true):
+				if card.can_be_played(card, false, true):
 					card.get_child(0).material.set_shader_parameter("grayscale", false)
 					card.set_meta("HoverEffect", true)
 					card.set_meta("CanBePlayed", true)
