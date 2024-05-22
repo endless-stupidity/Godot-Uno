@@ -1,5 +1,7 @@
 extends Control
 
+signal take_card_button_clicked
+
 @onready var path_follower = $TurnIndicatorPath/PathFollow2D
 @onready var pointer = $TurnIndicatorPath/PathFollow2D/Pointer
 @onready var take_card_button = $TakeCardButton
@@ -37,5 +39,15 @@ func change_take_card_button_color(target_color: Color, transition_time: float =
 func _on_take_card_button_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
 		if GameMaster.current_player == 0:
-			GameMaster.draw_to_player_hand(1)
+			if GameMaster.cards_to_be_taken > 0:
+				GameMaster.draw_to_player_hand(GameMaster.cards_to_be_taken)
+				GameMaster.cards_to_be_taken = 0
+				change_take_card_button_number(1, 0.5)
+				take_card_button_clicked.emit()
+			else:
+				GameMaster.draw_to_player_hand(1)
+				take_card_button_clicked.emit()
 
+func change_take_card_button_number(target_number: int = 1, transition_time: float = 0.0) -> void:
+	var tween = create_tween().set_parallel()
+	tween.tween_property(take_card_label, "text", "Take Cards (+" + str(target_number) + ")", transition_time)

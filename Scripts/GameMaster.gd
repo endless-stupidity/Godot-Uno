@@ -12,6 +12,7 @@ var players = ["player", "cpu1", "cpu2", "cpu3"]
 var current_player: int = 0
 var current_color: String
 var clockwise = true
+var cards_to_be_taken: int = 0
 
 var player_count: int = 4 #how many players are playing
 var card_scene = preload("res://Scenes/Cards/Card.tscn") #the card scene

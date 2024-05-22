@@ -30,6 +30,7 @@ func init_game() -> void:
 		GameMaster.current_color = GameMaster.color_map.keys().pick_random()
 	game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
 	game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+	game_hud.change_take_card_button_number(1)
 
 func _on_GameMaster_player_hand_changed() -> void:
 	player_hand.update_hand()
@@ -49,9 +50,18 @@ func _on_GameMaster_discard_pile_changed() -> void:
 func _on_GameMaster_new_round() -> void:
 	match GameMaster.current_player:
 		0:
-			game_hud.change_pointer_position(0.0, 0.75)
-			game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
-			player_hand.can_play()
+			if GameMaster.cards_to_be_taken > 0:
+				game_hud.change_take_card_button_number(1, 0.5)
+				game_hud.change_pointer_position(0.0, 0.75)
+				game_hud.change_take_card_button_number(GameMaster.cards_to_be_taken, 0.5)
+				player_hand.can_play(false)
+				await game_hud.take_card_button_clicked
+				player_hand.can_play()
+			else:
+				game_hud.change_take_card_button_number(1, 0.5)
+				game_hud.change_pointer_position(0.0, 0.75)
+				game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+				player_hand.can_play()
 		1:
 			game_hud.change_pointer_position(0.25, 0.75)
 			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
@@ -81,6 +91,12 @@ func _on_card_played(card_color: String, card_value: String) -> void:
 			else:
 				GameMaster.current_color = GameMaster.color_map.keys().pick_random()
 	game_hud.change_pointer_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+	
+	match card_value:
+		"Picker":
+			GameMaster.cards_to_be_taken += 2
+		"PickFour":
+			GameMaster.cards_to_be_taken += 4
 	
 	var skip = false
 	var reverse = false
