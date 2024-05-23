@@ -134,6 +134,7 @@ bus = &"Fx"
 [node name="CardPlaySfx" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_pbjab")
 volume_db = -4.685
+bus = &"Fx"
 
 [connection signal="mouse_entered" from="Control" to="." method="_on_control_mouse_entered"]
 [connection signal="mouse_exited" from="Control" to="." method="_on_control_mouse_exited"]

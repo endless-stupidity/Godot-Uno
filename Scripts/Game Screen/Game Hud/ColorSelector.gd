@@ -2,6 +2,8 @@ extends Control
 
 signal color_selected
 
+@onready var color_selector_background = $ColorSelectorBackground
+@onready var color_selector_panel = $ColorSelectorPanel
 @onready var color_selector_panel_background = $ColorSelectorPanel/PanelBackground
 
 @export var background_color_transition_time: float = 1.0 
@@ -72,3 +74,12 @@ func _on_button_yellow_gui_input(event: InputEvent) -> void:
 		GameMaster.current_color = "Yellow"
 		color_selected.emit()
 		hide()
+
+func _on_visibility_changed() -> void:
+	var tween = create_tween().parallel()
+	if visible:
+		tween.tween_property(color_selector_background, "modulate", Color("ffffffff"), background_color_transition_time)
+		tween.tween_property(color_selector_panel, "modulate", Color("ffffffff"), background_color_transition_time)
+	else:
+		tween.tween_property(color_selector_background, "modulate", Color("ffffff00"), background_color_transition_time)
+		tween.tween_property(color_selector_panel, "modulate", Color("ffffff00"), background_color_transition_time)

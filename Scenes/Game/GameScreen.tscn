@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=23 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://bunkc8qgqq3co" path="res://Scenes/Game/Deck.tscn" id="4_c27vo"]
 [ext_resource type="Shader" path="res://Assets/Shaders/BlurShader.gdshader" id="4_mpp7n"]
 [ext_resource type="PackedScene" uid="uid://drfnlr2ho0sas" path="res://Scenes/Game/HandManager.tscn" id="7_6vys6"]
-[ext_resource type="Shader" path="res://Assets/Shaders/ChromaticAbberation.gdshader" id="10_c4hpj"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/ColorSelector.gd" id="10_jfgc4"]
 [ext_resource type="AudioStream" uid="uid://dvdddi6crt6y2" path="res://Assets/Audio/Sfx/Game/Card Sfx/Card Shuffle.wav" id="12_sx8a8"]
 
@@ -33,12 +32,8 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_s8xig"]
-shader = ExtResource("10_c4hpj")
-shader_parameter/r_displacement = Vector2(5, 0)
-shader_parameter/g_displacement = Vector2(-1, 5)
-shader_parameter/b_displacement = Vector2(5, 0)
-shader_parameter/noise_amount = 500.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhv8r"]
+bg_color = Color(0, 0, 0, 0.231373)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_r6cy3"]
 resource_local_to_scene = true
@@ -216,16 +211,18 @@ offset_bottom = 800.0
 script = ExtResource("10_jfgc4")
 background_color_transition_time = 0.5
 
-[node name="Background" type="ColorRect" parent="ColorSelector"]
-material = SubResource("ShaderMaterial_s8xig")
+[node name="ColorSelectorBackground" type="Panel" parent="ColorSelector"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mhv8r")
 
 [node name="ColorSelectorPanel" type="Control" parent="ColorSelector"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -305,6 +302,7 @@ deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
 [connection signal="gui_input" from="GameHud/TakeCardButton" to="GameHud" method="_on_take_card_button_gui_input"]
+[connection signal="visibility_changed" from="ColorSelector" to="ColorSelector" method="_on_visibility_changed"]
 [connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_gui_input"]
 [connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_mouse_entered"]
 [connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_mouse_exited"]
