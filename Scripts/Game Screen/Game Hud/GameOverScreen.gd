@@ -1,0 +1,23 @@
+extends Control
+
+@export var fade_time: float = 0.5
+
+@onready var game_over_screen_background = $GameOverScreenBackground
+@onready var player_wins_text = $PlayerWins
+@onready var winning_player_label = $PlayerWins/Player
+@onready var buttons = $Buttons
+
+func change_winning_player(winning_player: String, transition_time: float = fade_time) -> void:
+	var tween = create_tween().set_parallel()
+	tween.tween_property(winning_player_label, "text", winning_player, transition_time)
+
+func _on_visibility_changed() -> void:
+	var tween = create_tween().set_parallel()
+	if visible:
+		tween.tween_property(game_over_screen_background, "modulate", Color("ffffffff"), fade_time)
+		tween.tween_property(player_wins_text, "modulate", Color("ffffffff"), fade_time)
+		tween.tween_property(buttons, "modulate", Color("ffffffff"), fade_time)
+	else:
+		tween.tween_property(game_over_screen_background, "modulate", Color("ffffff00"), fade_time)
+		tween.tween_property(player_wins_text, "modulate", Color("ffffff00"), fade_time)
+		tween.tween_property(buttons, "modulate", Color("ffffff00"), fade_time)

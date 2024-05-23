@@ -76,7 +76,7 @@ func _on_button_yellow_gui_input(event: InputEvent) -> void:
 		hide()
 
 func _on_visibility_changed() -> void:
-	var tween = create_tween().parallel()
+	var tween = create_tween().set_parallel()
 	if visible:
 		tween.tween_property(color_selector_background, "modulate", Color("ffffffff"), background_color_transition_time)
 		tween.tween_property(color_selector_panel, "modulate", Color("ffffffff"), background_color_transition_time)

@@ -8,6 +8,9 @@ extends Node2D
 @onready var game_hud = $GameHud
 @onready var color_selector = $ColorSelector
 @onready var card_shuffle_sfx = $CardShuffleSfx
+@onready var game_over_screen = $GameOverScreen
+
+var game_ended: bool = false
 
 func _ready() -> void:
 	GameMaster.connect("player_hand_changed", _on_GameMaster_player_hand_changed)
@@ -21,10 +24,17 @@ func _ready() -> void:
 func init_game() -> void:
 	card_shuffle_sfx.play()
 	GameMaster.init_deck()
+	GameMaster.player_hand.clear()
+	GameMaster.cpu1_hand.clear()
+	GameMaster.cpu2_hand.clear()
+	GameMaster.cpu3_hand.clear()
+	GameMaster.current_player = 0
 	GameMaster.draw_to_player_hand(7)
 	GameMaster.draw_to_cpu_hand(7, 1)
 	GameMaster.draw_to_cpu_hand(7, 2)
 	GameMaster.draw_to_cpu_hand(7, 3)
+	color_selector.hide()
+	game_over_screen.hide()
 	
 	GameMaster.draw_to_discard(1)
 	if GameMaster.get_top_discard_card().get_meta("Color") == "Wild":
@@ -49,37 +59,38 @@ func _on_GameMaster_discard_pile_changed() -> void:
 	discard_pile.update_discard_pile()
 
 func _on_GameMaster_new_round() -> void:
-	match GameMaster.current_player:
-		0:
-			if GameMaster.cards_to_be_taken > 0:
-				game_hud.change_take_card_button_number(1, 0.5)
-				game_hud.change_pointer_position(0.0, 0.75)
-				game_hud.change_take_card_button_number(GameMaster.cards_to_be_taken, 0.5)
-				player_hand.can_play(true, true)
-				await game_hud.take_card_button_clicked
-				player_hand.can_play()
-			else:
-				game_hud.change_take_card_button_number(1, 0.5)
-				game_hud.change_pointer_position(0.0, 0.75)
-				game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
-				player_hand.can_play()
-		1:
-			game_hud.change_pointer_position(0.25, 0.75)
-			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
-			player_hand.can_play(false)
-			GameMaster.cpu_play(1)
-		2:
-			game_hud.change_pointer_position(0.5, 0.75)
-			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
-			player_hand.can_play(false)
-			GameMaster.cpu_play(2)
-		3:
-			game_hud.change_pointer_position(0.75, 0.75)
-			game_hud.change_take_card_button_color(Color.WHITE, 0.5)
-			player_hand.can_play(false)
-			GameMaster.cpu_play(3)
-	
-	print(str(GameMaster.players[GameMaster.current_player]))
+	if not game_ended:
+		match GameMaster.current_player:
+			0:
+				if GameMaster.cards_to_be_taken > 0:
+					game_hud.change_take_card_button_number(1, 0.5)
+					game_hud.change_pointer_position(0.0, 0.75)
+					game_hud.change_take_card_button_number(GameMaster.cards_to_be_taken, 0.5)
+					player_hand.can_play(true, true)
+					await game_hud.take_card_button_clicked
+					player_hand.can_play()
+				else:
+					game_hud.change_take_card_button_number(1, 0.5)
+					game_hud.change_pointer_position(0.0, 0.75)
+					game_hud.change_take_card_button_color(GameMaster.color_map[GameMaster.current_color], 0.5)
+					player_hand.can_play()
+			1:
+				game_hud.change_pointer_position(0.25, 0.75)
+				game_hud.change_take_card_button_color(Color.WHITE, 0.5)
+				player_hand.can_play(false)
+				GameMaster.cpu_play(1)
+			2:
+				game_hud.change_pointer_position(0.5, 0.75)
+				game_hud.change_take_card_button_color(Color.WHITE, 0.5)
+				player_hand.can_play(false)
+				GameMaster.cpu_play(2)
+			3:
+				game_hud.change_pointer_position(0.75, 0.75)
+				game_hud.change_take_card_button_color(Color.WHITE, 0.5)
+				player_hand.can_play(false)
+				GameMaster.cpu_play(3)
+	else:
+		pass
 
 func _on_card_played(card_color: String, card_value: String) -> void:
 	match card_color:
@@ -106,3 +117,8 @@ func _on_card_played(card_color: String, card_value: String) -> void:
 	elif card_value == "Reverse":
 		reverse = true
 	GameMaster.next_turn(skip, reverse)
+
+func _on_someone_won(winning_player: String) -> void:
+	game_ended = true
+	game_over_screen.show()
+	game_over_screen.change_winning_player(winning_player, 1.0)

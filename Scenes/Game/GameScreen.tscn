@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=29 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -10,6 +10,7 @@
 [ext_resource type="Shader" path="res://Assets/Shaders/BlurShader.gdshader" id="4_mpp7n"]
 [ext_resource type="PackedScene" uid="uid://drfnlr2ho0sas" path="res://Scenes/Game/HandManager.tscn" id="7_6vys6"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/ColorSelector.gd" id="10_jfgc4"]
+[ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameOverScreen.gd" id="12_02t3e"]
 [ext_resource type="AudioStream" uid="uid://dvdddi6crt6y2" path="res://Assets/Audio/Sfx/Game/Card Sfx/Card Shuffle.wav" id="12_sx8a8"]
 
 [sub_resource type="Curve2D" id="Curve2D_emmi7"]
@@ -97,6 +98,55 @@ corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_spled"]
+bg_color = Color(0, 0, 0, 0.372549)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y2hvo"]
+bg_color = Color(1, 1, 1, 0.345098)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1tqon"]
+bg_color = Color(1, 1, 1, 0.345098)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hgvg"]
+bg_color = Color(1, 1, 1, 0.117647)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8bo4"]
+bg_color = Color(1, 1, 1, 0.117647)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 20.0
+expand_margin_right = 20.0
 
 [node name="GameScreen" type="Node2D"]
 script = ExtResource("1_2ln60")
@@ -301,6 +351,83 @@ shortcut_keys_enabled = false
 deselect_on_focus_loss_enabled = false
 drag_and_drop_selection_enabled = false
 
+[node name="GameOverScreen" type="Control" parent="."]
+visible = false
+top_level = true
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1200.0
+offset_bottom = 800.0
+script = ExtResource("12_02t3e")
+
+[node name="GameOverScreenBackground" type="Panel" parent="GameOverScreen"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_spled")
+
+[node name="PlayerWins" type="HBoxContainer" parent="GameOverScreen"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -336.0
+offset_top = -90.0
+offset_right = 336.0
+offset_bottom = 90.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Player" type="Label" parent="GameOverScreen/PlayerWins"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxFlat_y2hvo")
+
+[node name="Wins" type="Label" parent="GameOverScreen/PlayerWins"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Wins"
+
+[node name="Buttons" type="HBoxContainer" parent="GameOverScreen"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -188.0
+offset_top = 80.0
+offset_right = 188.0
+offset_bottom = 142.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Restart" type="Button" parent="GameOverScreen/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_1tqon")
+theme_override_styles/hover = SubResource("StyleBoxFlat_2hgvg")
+text = "Restart"
+
+[node name="Main Menu" type="Button" parent="GameOverScreen/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_1tqon")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w8bo4")
+text = "Main Menu"
+
 [connection signal="gui_input" from="GameHud/TakeCardButton" to="GameHud" method="_on_take_card_button_gui_input"]
 [connection signal="visibility_changed" from="ColorSelector" to="ColorSelector" method="_on_visibility_changed"]
 [connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonBlue" to="ColorSelector" method="_on_button_blue_gui_input"]
@@ -315,3 +442,4 @@ drag_and_drop_selection_enabled = false
 [connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_gui_input"]
 [connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_mouse_entered"]
 [connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_mouse_exited"]
+[connection signal="visibility_changed" from="GameOverScreen" to="GameOverScreen" method="_on_visibility_changed"]

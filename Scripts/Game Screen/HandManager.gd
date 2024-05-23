@@ -1,5 +1,7 @@
 extends Node2D
 
+signal someone_won(winning_player: String)
+
 var vertical_card_curve: Curve = preload("res://Assets/Curves/VerticalCardCurve.tres") #the curve for the x offset of the cards
 var horizontal_card_curve: Curve = preload("res://Assets/Curves/HorizontalCardCurve.tres") #the curve for the y offset of the cards
 var card_rotate_curve: Curve = preload("res://Assets/Curves/CardHandRotateCurve.tres") #the curve for the rotation of the cards
@@ -7,6 +9,10 @@ var card_rotate_curve: Curve = preload("res://Assets/Curves/CardHandRotateCurve.
 @export_enum("Player's Hand", "Cpu1's Hand", "Cpu2's Hand", "Cpu3's Hand") var hand_id: String
 @export var rotation_factor: float = 0.3 #how much should the cards be rotated
 @export var spread_amount: int = 300 #how much should the cards spread on the x axis
+
+func _ready() -> void:
+	var game_screen = get_tree().root.get_node("GameScreen")
+	someone_won.connect(game_screen._on_someone_won)
 
 func clear_hand() -> void: 
 	for child in get_children():
@@ -87,7 +93,7 @@ func update_hand() -> void:
 				card.set_meta("CanBePlayed", false)
 				card.set_card_back(true)
 			
-	else: #if there's only one card left, make sure to center it
+	elif card_count == 1: #if there's only one card left, make sure to center it
 		var card: Node2D
 		match hand_id:
 			"Player's Hand":
@@ -112,6 +118,17 @@ func update_hand() -> void:
 			card.set_meta("CanBePlayed", false)
 			card.set_card_back(true)
 		add_child(card)
+	
+	elif card_count == 0:
+		match hand_id:
+			"Player's Hand":
+				someone_won.emit("Player")
+			"Cpu1's Hand":
+				someone_won.emit("Cpu 1")
+			"Cpu2's Hand":
+				someone_won.emit("Cpu 2")
+			"Cpu3's Hand":
+				someone_won.emit("Cpu 3")
 
 func can_play(play: bool = true, picker: bool = false) -> void:
 	if play:
