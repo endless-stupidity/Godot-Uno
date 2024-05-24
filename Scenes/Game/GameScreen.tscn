@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://coxpmudniytrs"]
+[gd_scene load_steps=31 format=3 uid="uid://coxpmudniytrs"]
 
 [ext_resource type="Script" path="res://Scripts/Game Screen/GameScreen.gd" id="1_2ln60"]
 [ext_resource type="Script" path="res://Scripts/Game Screen/Game Hud/GameHud.gd" id="2_4neoy"]
@@ -122,11 +122,20 @@ expand_margin_right = 20.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2hgvg"]
 bg_color = Color(1, 1, 1, 0.117647)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
 border_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jcfdo"]
+bg_color = Color(1, 1, 1, 0.117647)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -136,11 +145,20 @@ expand_margin_right = 20.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w8bo4"]
 bg_color = Color(1, 1, 1, 0.117647)
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
 border_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kibcw"]
+bg_color = Color(1, 1, 1, 0.117647)
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -419,6 +437,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_1tqon")
 theme_override_styles/hover = SubResource("StyleBoxFlat_2hgvg")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_jcfdo")
 text = "Restart"
 
 [node name="Main Menu" type="Button" parent="GameOverScreen/Buttons"]
@@ -426,6 +445,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxFlat_1tqon")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w8bo4")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kibcw")
 text = "Main Menu"
 
 [connection signal="gui_input" from="GameHud/TakeCardButton" to="GameHud" method="_on_take_card_button_gui_input"]
