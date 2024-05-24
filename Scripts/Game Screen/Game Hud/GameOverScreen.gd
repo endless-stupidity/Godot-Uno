@@ -1,5 +1,7 @@
 extends Control
 
+signal restart_pressed
+
 @export var fade_time: float = 0.5
 
 @onready var game_over_screen_background = $GameOverScreenBackground
@@ -21,3 +23,7 @@ func _on_visibility_changed() -> void:
 		tween.tween_property(game_over_screen_background, "modulate", Color("ffffff00"), fade_time)
 		tween.tween_property(player_wins_text, "modulate", Color("ffffff00"), fade_time)
 		tween.tween_property(buttons, "modulate", Color("ffffff00"), fade_time)
+
+func _on_restart_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed():
+		restart_pressed.emit()

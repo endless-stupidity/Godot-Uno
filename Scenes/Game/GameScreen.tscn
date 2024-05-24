@@ -462,4 +462,6 @@ text = "Main Menu"
 [connection signal="gui_input" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_gui_input"]
 [connection signal="mouse_entered" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_mouse_entered"]
 [connection signal="mouse_exited" from="ColorSelector/ColorSelectorPanel/Buttons/ButtonYellow" to="ColorSelector" method="_on_button_yellow_mouse_exited"]
+[connection signal="restart_pressed" from="GameOverScreen" to="." method="_on_game_over_screen_restart_pressed"]
 [connection signal="visibility_changed" from="GameOverScreen" to="GameOverScreen" method="_on_visibility_changed"]
+[connection signal="gui_input" from="GameOverScreen/Buttons/Restart" to="GameOverScreen" method="_on_restart_gui_input"]

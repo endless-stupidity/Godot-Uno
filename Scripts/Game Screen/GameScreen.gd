@@ -22,13 +22,17 @@ func _ready() -> void:
 	init_game()
 
 func init_game() -> void:
+	game_ended = false
 	card_shuffle_sfx.play()
 	GameMaster.init_deck()
 	GameMaster.player_hand.clear()
 	GameMaster.cpu1_hand.clear()
 	GameMaster.cpu2_hand.clear()
 	GameMaster.cpu3_hand.clear()
+	GameMaster.discard_pile.clear()
+	discard_pile.clear_discard_pile()
 	GameMaster.current_player = 0
+	game_hud.change_pointer_position(0)
 	GameMaster.draw_to_player_hand(7)
 	GameMaster.draw_to_cpu_hand(7, 1)
 	GameMaster.draw_to_cpu_hand(7, 2)
@@ -122,3 +126,6 @@ func _on_someone_won(winning_player: String) -> void:
 	game_ended = true
 	game_over_screen.show()
 	game_over_screen.change_winning_player(winning_player, 1.0)
+
+func _on_game_over_screen_restart_pressed() -> void:
+	init_game()
