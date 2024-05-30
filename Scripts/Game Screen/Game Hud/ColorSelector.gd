@@ -78,8 +78,12 @@ func _on_button_yellow_gui_input(event: InputEvent) -> void:
 func _on_visibility_changed() -> void:
 	var tween = create_tween().set_parallel()
 	if visible:
+		MusicManager.set_reverb_wet(1.0, 0.0, 1.0)
+		MusicManager.set_lowpass_freq(2000, 1.0)
 		tween.tween_property(color_selector_background, "modulate", Color("ffffffff"), background_color_transition_time)
 		tween.tween_property(color_selector_panel, "modulate", Color("ffffffff"), background_color_transition_time)
 	else:
+		MusicManager.set_reverb_wet(0.0, 1.0, 1.0)
+		MusicManager.set_lowpass_freq(20000, 1.0)
 		tween.tween_property(color_selector_background, "modulate", Color("ffffff00"), background_color_transition_time)
 		tween.tween_property(color_selector_panel, "modulate", Color("ffffff00"), background_color_transition_time)
