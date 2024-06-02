@@ -1,37 +1,39 @@
 extends AudioStreamPlayer
 
-var current_track: AudioStream
+var current_track: String
 var reverb: AudioEffectReverb
 var lowpass_filter: AudioEffectLowPassFilter
 
 const music_dic: Dictionary = {
+	"Riding the Mood Swing" = preload("res://Assets/Audio/Music/Riding the Mood Swing.mp3"),
 	"Sunset Juice" = preload("res://Assets/Audio/Music/Sunset Juice.mp3"),
+	"The Halcyon Card Club" = preload("res://Assets/Audio/Music/The Halcyon Card Club.mp3"),
 }
 
 func _ready() -> void:
 	reverb = AudioServer.get_bus_effect(1, 0)
 	lowpass_filter = AudioServer.get_bus_effect(1, 1)
 	current_track = random_track()
-	stream = current_track
+	stream = music_dic[current_track]
 	play()
 
 func _on_finished() -> void:
 	current_track = random_track(true)
-	stream = current_track
+	stream = music_dic[current_track]
 	play()
 
-func random_track(avoid_current_track: bool = false) -> AudioStream:
+func random_track(avoid_current_track: bool = false) -> String:
 	if avoid_current_track:
-		var keys = music_dic.keys()
-		var random_key = keys.pick_random
-		if random_key == music_dic[current_track]:
+		var track_names = music_dic.keys()
+		var random_track_name = track_names.pick_random()
+		if random_track_name == current_track:
 			return random_track(avoid_current_track)
 		else:
-			return music_dic[random_key]
+			return random_track_name
 	else:
-		var keys = music_dic.keys()
-		var random_key = keys.pick_random()
-		return music_dic[random_key]
+		var track_names = music_dic.keys()
+		var random_track_name = track_names.pick_random()
+		return random_track_name
 
 func set_reverb_wet(target_value: float, target_dry_value: float = reverb.dry, transition_time: float = 0) -> void:
 	var tween = create_tween().set_parallel()

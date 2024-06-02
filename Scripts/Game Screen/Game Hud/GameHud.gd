@@ -8,11 +8,11 @@ signal take_card_button_clicked
 @onready var take_card_label = $TakeCardButton/TakeCardLabel
 
 func change_pointer_color(target_color: Color, transition_time: float = 0) -> void:
-	var tween = create_tween()
+	var tween = create_tween().set_parallel()
 	tween.tween_property(pointer, "color", target_color, transition_time)
 
 func change_pointer_position(target_progress_ratio: float, transition_time: float = 0) -> void:
-	var tween = create_tween().parallel()
+	var tween = create_tween().set_parallel()
 	var current_progress_ratio = path_follower.progress_ratio
 	if transition_time == 0:
 		path_follower.progress_ratio = target_progress_ratio
@@ -33,7 +33,7 @@ func change_pointer_position(target_progress_ratio: float, transition_time: floa
 				tween.tween_property(path_follower, "progress_ratio", target_progress_ratio, transition_time)
 
 func change_take_card_button_color(target_color: Color, transition_time: float = 0.0) -> void:
-	var tween = create_tween()
+	var tween = create_tween().set_parallel()
 	tween.tween_property(take_card_button, "material:shader_parameter/color_over", target_color, transition_time)
 
 func _on_take_card_button_gui_input(event: InputEvent) -> void:
